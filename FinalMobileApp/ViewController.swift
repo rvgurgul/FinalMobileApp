@@ -18,33 +18,35 @@ class ViewController: UIViewController
      Peter
      Nick
      
-     Schoology/ Canvas/ Google Classroom Replacement (with integration)
+     1. Schoology/ Canvas/ Google Classroom Replacement (with integration)
      -google authentication
      -register with class codes
      -see tabs for assessments, homework, grades, help
      -ask teachers/students what they wish online classrooms had?
      
-     Lightboard Controls
+     2. Lightboard Controls
      
-     Soundboard / Launchpad
+     3. Soundboard / Launchpad
      -change dimensions
      -change sounds
      -effects?
      
-     Morse Code Texting
+     4. Morse Code Texting
      -convert taps to text
      -send texts without looking
      -flash morse code with light
      
-     FTC/Rubric
+     5. FTC/Rubric
      
+     6. Social Media Network
      
-     Social Media Network
-     -uneditable text entry? (no backspace)
+     7. Song Lyric Finder
      
-     Song Lyric Finder
+     8. Graphing/CAS Calculator
      
-     Graphing/CAS Calculator
+     9.
+     
+     10.
      
      */
 
