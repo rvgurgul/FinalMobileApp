@@ -100,8 +100,8 @@
 				3F4FC7AB1E79A49700053969 /* AppDelegate.swift */,
 				3F4FC7AD1E79A49700053969 /* ViewController.swift */,
 				3F4FC7AF1E79A49700053969 /* Main.storyboard */,
-				3F4FC7B21E79A49700053969 /* Assets.xcassets */,
 				3F4FC7B41E79A49700053969 /* LaunchScreen.storyboard */,
+				3F4FC7B21E79A49700053969 /* Assets.xcassets */,
 				3F4FC7B71E79A49700053969 /* Info.plist */,
 			);
 			path = FinalMobileApp;

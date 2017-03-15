@@ -8,18 +8,51 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController
+{
 
-    override func viewDidLoad() {
+    /*
+     λ3
+     
+     Richie
+     Peter
+     Nick
+     
+     Schoology/ Canvas/ Google Classroom Replacement (with integration)
+     -google authentication
+     -register with class codes
+     -see tabs for assessments, homework, grades, help
+     -ask teachers/students what they wish online classrooms had?
+     
+     Lightboard Controls
+     
+     Soundboard / Launchpad
+     -change dimensions
+     -change sounds
+     -effects?
+     
+     Morse Code Texting
+     -convert taps to text
+     -send texts without looking
+     -flash morse code with light
+     
+     FTC/Rubric
+     
+     
+     Social Media Network
+     -uneditable text entry? (no backspace)
+     
+     Song Lyric Finder
+     
+     Graphing/CAS Calculator
+     
+     */
+
+    
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 
 }
 
