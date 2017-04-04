@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F018EA51E92A4B8008262ED /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F018EA41E92A4B8008262ED /* LobbyViewController.swift */; };
+		3F4221D71E815C7C00464FEA /* HideAndSeekMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4221D61E815C7C00464FEA /* HideAndSeekMenu.swift */; };
+		3F4221D91E815EA700464FEA /* GlobalUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4221D81E815EA700464FEA /* GlobalUtility.swift */; };
 		3F4FC7AC1E79A49700053969 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7AB1E79A49700053969 /* AppDelegate.swift */; };
 		3F4FC7AE1E79A49700053969 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7AD1E79A49700053969 /* ViewController.swift */; };
 		3F4FC7B11E79A49700053969 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F4FC7AF1E79A49700053969 /* Main.storyboard */; };
@@ -14,6 +17,8 @@
 		3F4FC7B61E79A49700053969 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F4FC7B41E79A49700053969 /* LaunchScreen.storyboard */; };
 		3F4FC7C11E79A49700053969 /* FinalMobileAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7C01E79A49700053969 /* FinalMobileAppTests.swift */; };
 		3F4FC7CC1E79A49700053969 /* FinalMobileAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7CB1E79A49700053969 /* FinalMobileAppUITests.swift */; };
+		3FCBABA11E82CA1E005D888C /* HideAndSeekGameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */; };
+		3FCBABA31E82E25D005D888C /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCBABA21E82E25D005D888C /* BeaconManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F018EA41E92A4B8008262ED /* LobbyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LobbyViewController.swift; sourceTree = "<group>"; };
+		3F4221D61E815C7C00464FEA /* HideAndSeekMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HideAndSeekMenu.swift; sourceTree = "<group>"; };
+		3F4221D81E815EA700464FEA /* GlobalUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalUtility.swift; sourceTree = "<group>"; };
 		3F4FC7A81E79A49700053969 /* FinalMobileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalMobileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F4FC7AB1E79A49700053969 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F4FC7AD1E79A49700053969 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +55,8 @@
 		3F4FC7C71E79A49700053969 /* FinalMobileAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalMobileAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F4FC7CB1E79A49700053969 /* FinalMobileAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalMobileAppUITests.swift; sourceTree = "<group>"; };
 		3F4FC7CD1E79A49700053969 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HideAndSeekGameScreen.swift; sourceTree = "<group>"; };
+		3FCBABA21E82E25D005D888C /* BeaconManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +108,12 @@
 			isa = PBXGroup;
 			children = (
 				3F4FC7AB1E79A49700053969 /* AppDelegate.swift */,
+				3FCBABA21E82E25D005D888C /* BeaconManager.swift */,
+				3F4221D81E815EA700464FEA /* GlobalUtility.swift */,
+				3F4221D61E815C7C00464FEA /* HideAndSeekMenu.swift */,
+				3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */,
 				3F4FC7AD1E79A49700053969 /* ViewController.swift */,
+				3F018EA41E92A4B8008262ED /* LobbyViewController.swift */,
 				3F4FC7AF1E79A49700053969 /* Main.storyboard */,
 				3F4FC7B41E79A49700053969 /* LaunchScreen.storyboard */,
 				3F4FC7B21E79A49700053969 /* Assets.xcassets */,
@@ -259,7 +274,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FCBABA31E82E25D005D888C /* BeaconManager.swift in Sources */,
+				3FCBABA11E82CA1E005D888C /* HideAndSeekGameScreen.swift in Sources */,
 				3F4FC7AE1E79A49700053969 /* ViewController.swift in Sources */,
+				3F4221D91E815EA700464FEA /* GlobalUtility.swift in Sources */,
+				3F018EA51E92A4B8008262ED /* LobbyViewController.swift in Sources */,
+				3F4221D71E815C7C00464FEA /* HideAndSeekMenu.swift in Sources */,
 				3F4FC7AC1E79A49700053969 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -505,6 +525,7 @@
 				3F4FC7D21E79A49700053969 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3F4FC7D31E79A49700053969 /* Build configuration list for PBXNativeTarget "FinalMobileAppTests" */ = {
 			isa = XCConfigurationList;
@@ -513,6 +534,7 @@
 				3F4FC7D51E79A49700053969 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3F4FC7D61E79A49700053969 /* Build configuration list for PBXNativeTarget "FinalMobileAppUITests" */ = {
 			isa = XCConfigurationList;
@@ -521,6 +543,7 @@
 				3F4FC7D81E79A49700053969 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
