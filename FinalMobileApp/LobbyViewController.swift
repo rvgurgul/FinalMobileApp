@@ -13,14 +13,6 @@ enum GameType: String
     case HideAndBeac = "hide_and_seek"
 }
 
-var gameSettings: [GameType:[String:Any]]
-{
-    var settings = [GameType:[String:Any]]()
-    settings[GameType.HideAndBeac] = ["Countdown": 30, "Round Timer": 300]
-    
-    return settings
-}
-
 class LobbyViewController: UIViewController
 {
     var gameType: GameType!
@@ -28,12 +20,18 @@ class LobbyViewController: UIViewController
     func settingsButton()
     {
         let alert = UIAlertController(title: "Settings Menu", message: nil, preferredStyle: .actionSheet)
-        if let settings = gameSettings[gameType]
+        
+        for setting in settingsFor(game: .HideAndBeac)
         {
-            for setting in settings
-            {
-                alert.addAction(UIAlertAction(title: "\(setting.key): \(setting.value)", style: .default, handler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>))
-            }
+            alert.addAction(UIAlertAction(title: "\(setting.key): \(setting.value)", style: .default, handler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>))
+        }
+    }
+    
+    func settingsFor(game: GameType) -> [String:Any]
+    {
+        switch game
+        {
+        case .HideAndBeac: return ["Countdown": 30, "Round Timer": 300]
         }
     }
 }
