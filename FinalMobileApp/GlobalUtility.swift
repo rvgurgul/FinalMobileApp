@@ -119,6 +119,11 @@ func == (beacon: CLBeacon, region: CLBeaconRegion) -> Bool
     return beacon.proximityUUID == region.proximityUUID && beacon.major == region.major && beacon.minor == region.minor
 }
 
+//func == (uuid1: UUID, uuid2: UUID)
+//{
+//    return uuid1.uuidString == uuid2.uuidString
+//}
+
 func calculateAccuracy(txPower: Double, rssi: Int) -> Double
 {
     if (rssi == 0)
