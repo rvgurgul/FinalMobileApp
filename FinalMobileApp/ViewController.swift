@@ -21,8 +21,10 @@ extension UIViewController
     }
 }
 
-class ViewController: UIViewController
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITabBarDelegate
 {
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tabBar: UITabBar!
     
     /*
      λ3
@@ -62,9 +64,15 @@ class ViewController: UIViewController
      
      */
     
+    var viewIsInJoinState = true
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tabBar.delegate = self
         
         if CLLocationManager.authorizationStatus() != .authorizedAlways {
             CLLocationManager().requestAlwaysAuthorization()
@@ -76,6 +84,76 @@ class ViewController: UIViewController
         }
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "wifi"), style: .plain, target: self, action: #selector(connectBeacon))
+    }
+    
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem)
+    {
+        if item.tag == 1 //Join
+        {
+            viewIsInJoinState = true
+        }
+        else if item.tag == 2 //Make
+        {
+            viewIsInJoinState = false
+        }
+        tableView.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if viewIsInJoinState {
+            //number of lobbies
+            return 7
+        }
+        else {
+            //lobby name
+            //lobby password
+            //confirm button
+            return 3
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        if viewIsInJoinState
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "joinCell")!
+            cell.textLabel?.text = "Lobby name"
+            cell.detailTextLabel?.text = "Hosted by: host name"
+            return cell
+        }
+        else
+        {
+            /**
+            Lobby Name     (Text Field)
+            Lobby Pass     (Text Field {secure})
+            Confirm Button (Whole Cell {centered text})
+                            Checks for existing lobbies with same name
+            */
+            
+            if indexPath.row == 2
+            {
+                return tableView.dequeueReusableCell(withIdentifier: "confirmationCell")!
+            }
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "createCell") as! CreateLobbyFieldCell
+            
+            //create 2 custom cells with text fields for name and pass (pass should be secure)
+            switch indexPath.row
+            {
+            case 0:
+                cell.label.text = "Lobby Name"
+                
+            case 1:
+                cell.label.text = "Password"
+                cell.field.isSecureTextEntry = true
+                
+            default:
+                cell.textLabel?.text = ""
+            }
+            
+            return cell
+        }
     }
     
     func connectBeacon()

@@ -37,6 +37,11 @@ var saved: UserDefaults
     return UserDefaults.standard
 }
 
+var deviceName: String
+{
+    return UIDevice.current.name
+}
+
 var beaconUUID: String
 {
     set (value)

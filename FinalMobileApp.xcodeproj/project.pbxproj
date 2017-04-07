@@ -19,6 +19,7 @@
 		3F4FC7CC1E79A49700053969 /* FinalMobileAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7CB1E79A49700053969 /* FinalMobileAppUITests.swift */; };
 		3FCBABA11E82CA1E005D888C /* HideAndSeekGameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */; };
 		3FCBABA31E82E25D005D888C /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCBABA21E82E25D005D888C /* BeaconManager.swift */; };
+		3FDDBB121E97B68D00001842 /* CreateLobbyFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDDBB111E97B68D00001842 /* CreateLobbyFieldCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		3F4FC7CD1E79A49700053969 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HideAndSeekGameScreen.swift; sourceTree = "<group>"; };
 		3FCBABA21E82E25D005D888C /* BeaconManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManager.swift; sourceTree = "<group>"; };
+		3FDDBB111E97B68D00001842 /* CreateLobbyFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateLobbyFieldCell.swift; path = ../CreateLobbyFieldCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,11 +111,12 @@
 			children = (
 				3F4FC7AB1E79A49700053969 /* AppDelegate.swift */,
 				3FCBABA21E82E25D005D888C /* BeaconManager.swift */,
+				3FDDBB111E97B68D00001842 /* CreateLobbyFieldCell.swift */,
 				3F4221D81E815EA700464FEA /* GlobalUtility.swift */,
 				3F4221D61E815C7C00464FEA /* HideAndSeekMenu.swift */,
 				3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */,
-				3F4FC7AD1E79A49700053969 /* ViewController.swift */,
 				3F018EA41E92A4B8008262ED /* LobbyViewController.swift */,
+				3F4FC7AD1E79A49700053969 /* ViewController.swift */,
 				3F4FC7AF1E79A49700053969 /* Main.storyboard */,
 				3F4FC7B41E79A49700053969 /* LaunchScreen.storyboard */,
 				3F4FC7B21E79A49700053969 /* Assets.xcassets */,
@@ -275,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FCBABA31E82E25D005D888C /* BeaconManager.swift in Sources */,
+				3FDDBB121E97B68D00001842 /* CreateLobbyFieldCell.swift in Sources */,
 				3FCBABA11E82CA1E005D888C /* HideAndSeekGameScreen.swift in Sources */,
 				3F4FC7AE1E79A49700053969 /* ViewController.swift in Sources */,
 				3F4221D91E815EA700464FEA /* GlobalUtility.swift in Sources */,
