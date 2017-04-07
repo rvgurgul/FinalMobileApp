@@ -11,7 +11,7 @@ import CoreLocation
 
 extension UIViewController
 {
-    func goToView(with identifier: String, handler: ((UIViewController) -> Void)?)
+    func goToView(withID identifier: String, handler: ((UIViewController) -> Void)?)
     {
         if let vc = storyboard?.instantiateViewController(withIdentifier: identifier)
         {
@@ -25,44 +25,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tabBar: UITabBar!
-    
-    /*
-     λ3
-     
-     Richie
-     Peter
-     Nick
-     
-     -------
-     iBeacon
-     -------
-     - = incomplete
-     ~ = complete
-     
-     -Main Menu
-        -Hide & Seek
-            -lobby
-                -invite people/show nearby phones
-                -options
-                    -initial timer (~30s)
-                    -round timer (~5m)
-                    -hiders become seekers
-                    -who is next seeker (1st? 2nd to last? winner?)
-                -ready up button
-                -randomly pick a seeker/allow someone to choose
-                -initial timer
-                -begin round timer
-                -seeker has large range beacon
-                -seeker can see each player & distance to them
-                -hiders can see each player & distance to them except the seeker.
-                -after time is up, if all remaining hiders are together, they win
-                -first/2nd to last player found becomes next seeker
-        -Sharks & Minnows
-            -3 beacons to triangulate position
-        -CTF?
-        -TTT?
-     
-     */
     
     var viewIsInJoinState = true
     
@@ -145,7 +107,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell.label.text = "Lobby Name"
                 
             case 1:
-                cell.label.text = "Password"
+                cell.label.text = "Password?"
                 cell.field.isSecureTextEntry = true
                 
             default:
@@ -153,6 +115,43 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             
             return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        if !viewIsInJoinState && indexPath.row == 2
+        {
+            let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! CreateLobbyFieldCell
+            let passCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! CreateLobbyFieldCell
+            
+            let name = nameCell.field.text!
+            let pass = passCell.field.text!
+            
+            //firebase checking for existing lobby.
+            ref.observeSingleEvent(of: .value, with:
+            {   (snap) in
+                if let dict = snap.value as? [String:Any]
+                {
+                    let lobbyNames = [String](dict.keys)
+                    if lobbyNames.contains(name)
+                    {
+                        
+                    }
+                    else
+                    {
+                        ref.child(name).updateChildValues(["password": pass])
+                        
+                        self.goToView(withID: "newLobby", handler:
+                        {   (vc) in
+                            if let lobby = vc as? LobbyViewController
+                            {
+                                lobby.lobbyName = name
+                            }
+                        })
+                    }
+                }
+            })
         }
     }
     

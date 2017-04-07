@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>841906924634-2m357a6itu46qm31ho3v71uka8f05k61.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.841906924634-2m357a6itu46qm31ho3v71uka8f05k61</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDbvaOTkZkUMO0n4FPdMYmJZ2DYQLssBtE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>841906924634</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>MobileApps.FinalMobileApp</string>
+	<key>PROJECT_ID</key>
+	<string>hide-and-go-beac</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hide-and-go-beac.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:841906924634:ios:0c65b9bd40338384</string>
+	<key>DATABASE_URL</key>
+	<string>https://hide-and-go-beac.firebaseio.com</string>
+</dict>
+</plist>

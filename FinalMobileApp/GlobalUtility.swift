@@ -9,28 +9,54 @@
 import Foundation
 import UIKit
 import CoreLocation
+import Firebase
+
+/*
+ λ3
+ 
+ Richie
+ Peter
+ Nick
+ 
+ -------
+ iBeacon
+ -------
+ - = incomplete
+ ~ = complete
+ 
+ -Main Menu
+ -Hide & Seek
+ -lobby
+ -invite people/show nearby phones
+ -options
+ -initial timer (~30s)
+ -round timer (~5m)
+ -hiders become seekers
+ -who is next seeker (1st? 2nd to last? winner?)
+ -ready up button
+ -randomly pick a seeker/allow someone to choose
+ -initial timer
+ -begin round timer
+ -seeker has large range beacon
+ -seeker can see each player & distance to them
+ -hiders can see each player & distance to them except the seeker.
+ -after time is up, if all remaining hiders are together, they win
+ -first/2nd to last player found becomes next seeker
+ -Sharks & Minnows
+ -3 beacons to triangulate position
+ -CTF?
+ -TTT?
+ 
+ */
 
 let ESTIMOTE_PROXIMITY_UUID = UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!
 
-var currentLobby: String? = nil
-
 var beaconManager: BeaconManager!
 
-/*
 var ref: FIRDatabaseReference
 {
     return FIRDatabase.database().reference()
 }
- 
-var currentGame: FIRDatabaseReference
-{
-    if let branch = currentLobby
-    {
-        return ref.child(branch)
-    }
-    return nil
-}
- */
 
 var saved: UserDefaults
 {
