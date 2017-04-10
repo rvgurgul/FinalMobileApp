@@ -28,6 +28,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var viewIsInJoinState = true
     
+    var refreshControl: UIRefreshControl!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -46,6 +48,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "wifi"), style: .plain, target: self, action: #selector(connectBeacon))
+   
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(grabLobbies), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControl)
+    
     }
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem)
