@@ -54,6 +54,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(grabLobbies), for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl)
+        
     
     }
     
@@ -162,6 +163,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             })
         }
+    }
+    
+    
+    func grabLobbies()
+    {
+        
+        refreshControl.endRefreshing()
+        
     }
     
     func connectBeacon()
