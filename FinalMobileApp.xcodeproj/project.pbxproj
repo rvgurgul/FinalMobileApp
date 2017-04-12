@@ -18,6 +18,11 @@
 		3F4FC7B61E79A49700053969 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F4FC7B41E79A49700053969 /* LaunchScreen.storyboard */; };
 		3F4FC7C11E79A49700053969 /* FinalMobileAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7C01E79A49700053969 /* FinalMobileAppTests.swift */; };
 		3F4FC7CC1E79A49700053969 /* FinalMobileAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7CB1E79A49700053969 /* FinalMobileAppUITests.swift */; };
+		3FC5E19F1E9E7227008A5088 /* EstimoteSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E19E1E9E7227008A5088 /* EstimoteSDK.framework */; };
+		3FC5E1A11E9E734E008A5088 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E1A01E9E734E008A5088 /* CoreGraphics.framework */; };
+		3FC5E1A31E9E7359008A5088 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E1A21E9E7359008A5088 /* UIKit.framework */; };
+		3FC5E1A51E9E7368008A5088 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E1A41E9E7368008A5088 /* Foundation.framework */; };
+		3FC5E1A71E9E7376008A5088 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E1A61E9E7376008A5088 /* SystemConfiguration.framework */; };
 		3FCBABA11E82CA1E005D888C /* HideAndSeekGameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */; };
 		3FCBABA31E82E25D005D888C /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCBABA21E82E25D005D888C /* BeaconManager.swift */; };
 		3FDDBB121E97B68D00001842 /* CreateLobbyFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDDBB111E97B68D00001842 /* CreateLobbyFieldCell.swift */; };
@@ -63,6 +68,11 @@
 		3F4FC7C71E79A49700053969 /* FinalMobileAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalMobileAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F4FC7CB1E79A49700053969 /* FinalMobileAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalMobileAppUITests.swift; sourceTree = "<group>"; };
 		3F4FC7CD1E79A49700053969 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3FC5E19E1E9E7227008A5088 /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EstimoteSDK.framework; path = "../iOS-SDK-master/EstimoteSDK/EstimoteSDK.framework"; sourceTree = "<group>"; };
+		3FC5E1A01E9E734E008A5088 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		3FC5E1A21E9E7359008A5088 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		3FC5E1A41E9E7368008A5088 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3FC5E1A61E9E7376008A5088 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HideAndSeekGameScreen.swift; sourceTree = "<group>"; };
 		3FCBABA21E82E25D005D888C /* BeaconManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManager.swift; sourceTree = "<group>"; };
 		3FDDBB111E97B68D00001842 /* CreateLobbyFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateLobbyFieldCell.swift; path = ../CreateLobbyFieldCell.swift; sourceTree = "<group>"; };
@@ -80,7 +90,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FC5E1A71E9E7376008A5088 /* SystemConfiguration.framework in Frameworks */,
+				3FC5E1A51E9E7368008A5088 /* Foundation.framework in Frameworks */,
+				3FC5E1A31E9E7359008A5088 /* UIKit.framework in Frameworks */,
+				3FC5E1A11E9E734E008A5088 /* CoreGraphics.framework in Frameworks */,
 				F8315FAAB4091F1535B0D5C4 /* Pods_FinalMobileApp.framework in Frameworks */,
+				3FC5E19F1E9E7227008A5088 /* EstimoteSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +194,11 @@
 		61F1E50A828828AF3A9C3CF1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3FC5E1A61E9E7376008A5088 /* SystemConfiguration.framework */,
+				3FC5E1A41E9E7368008A5088 /* Foundation.framework */,
+				3FC5E1A21E9E7359008A5088 /* UIKit.framework */,
+				3FC5E1A01E9E734E008A5088 /* CoreGraphics.framework */,
+				3FC5E19E1E9E7227008A5088 /* EstimoteSDK.framework */,
 				F5C7875E84E7A12FFF51812D /* Pods_FinalMobileApp.framework */,
 				0FCD5E60CCC6C47CDC2120FF /* Pods_FinalMobileAppTests.framework */,
 				779D3CF6EA8A07C3EF7224C4 /* Pods_FinalMobileAppUITests.framework */,
