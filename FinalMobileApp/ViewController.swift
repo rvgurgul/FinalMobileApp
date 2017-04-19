@@ -30,6 +30,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var refreshControl: UIRefreshControl!
     
+    var lobbies = [String:String]()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -47,15 +49,51 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         
+        grabLobbies()
+        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "wifi"), style: .plain, target: self, action: #selector(connectBeacon))
    
-        
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(grabLobbies), for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl)
-        
+    }
     
+    func grabLobbies()
+    {
+        lobbies = [String:String]()
+        ref.observeSingleEvent(of: .value, with:
+        {   (snap) in
+            if let dict = snap.value as? [String:Any]
+            {
+                print("A")
+                print(dict)
+                let lobbyNames = dict.keys
+                for lobbyName in lobbyNames {
+                    print("B")
+                    print(lobbyName)
+                    if let lobbyDict = dict[lobbyName] as? [String:Any] {
+                        print("C")
+                        print(lobbyDict)
+                        if let players = lobbyDict["players"] as? [String:Any] {
+                            print("D")
+                            print(players)
+                            if let host = players["host"] as? String{
+                                print("E")
+                                print(host)
+                                let lobby = Lobby(name: lobbyName, host: host, pass: "")
+                                
+                                self.lobbies[lobbyName] = host
+                                self.tableView.reloadData()
+                                self.refreshControl.endRefreshing()
+                                print("F")
+                                print(self.lobbies)
+                            }
+                        }
+                    }
+                }
+            }
+        })
     }
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem)
@@ -75,7 +113,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if viewIsInJoinState {
             //number of lobbies
-            return 7
+            return lobbies.count
         }
         else {
             //lobby name
@@ -90,8 +128,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if viewIsInJoinState
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "joinCell")!
-            cell.textLabel?.text = "Lobby name"
-            cell.detailTextLabel?.text = "Hosted by: host name"
+            cell.textLabel?.text = [String](lobbies.keys)[indexPath.row]
+            cell.detailTextLabel?.text = [String](lobbies.values)[indexPath.row]
             return cell
         }
         else
@@ -163,14 +201,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             })
         }
-    }
-    
-    
-    func grabLobbies()
-    {
-        
-        refreshControl.endRefreshing()
-        
     }
     
     func connectBeacon()
