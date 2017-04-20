@@ -201,6 +201,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             })
         }
+        else
+        {
+            goToView(withID: "newLobby", handler: { (vc) in
+                if let nextVC = vc as? LobbyViewController
+                {
+                    nextVC.lobbyName = [String](self.lobbies.keys)[indexPath.row]
+                }
+            })
+        }
     }
     
     func connectBeacon()

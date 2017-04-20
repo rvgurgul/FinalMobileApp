@@ -46,6 +46,7 @@ class LobbyViewController: UITableViewController
         print(settings)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(settingsButton))
+        goToView(withID: "newGame", handler: nil)
     }
     
     func settingsButton()
