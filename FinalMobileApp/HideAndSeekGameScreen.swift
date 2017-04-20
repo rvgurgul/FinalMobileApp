@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HideAndSeekGameScreen: UITableViewController
+class HideAndSeekGameScreen: UIViewController
 {
     var time = 300
     var tim: Timer!
@@ -36,7 +36,7 @@ class HideAndSeekGameScreen: UITableViewController
         }
     }
 
-    override func numberOfSections(in tableView: UITableView) -> Int{
+    /*override func numberOfSections(in tableView: UITableView) -> Int{
         return 1
     }
 
@@ -55,5 +55,5 @@ class HideAndSeekGameScreen: UITableViewController
         }
 
         return cell
-    }
+    }*/
 }
