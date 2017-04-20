@@ -158,12 +158,42 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if viewIsInJoinState
         {
             goToView(withID: "newLobby", handler:
-                {   (vc) in
-                    if let nextVC = vc as? LobbyViewController
-                    {
-                        nextVC.lobbyName = [String](self.lobbies.keys)[indexPath.row]
-                    }
+            {   (vc) in
+                if let nextVC = vc as? LobbyViewController
+                {
+                    nextVC.lobbyName = [String](self.lobbies.keys)[indexPath.row]
+                }
             })
+            return
+            /*
+            let lobby = lobbies[indexPath.row]
+            if lobby.password != nil
+             {
+ 
+            let alert = UIAlertController(title: "Password protected lobby", message: nil, preferredStyle: .alert)
+            alert.addTextField(configurationHandler:
+            {   (field) in
+                field.placeholder = "(case sensitive)"
+            })
+            alert.addAction(UIAlertAction(title: "Enter", style: .default, handler:
+            {   _ in
+                if let input = alert.textFields?[0].text
+                {
+                    if input == lobby.password
+                    {
+                        //goToView
+                    }
+                    else
+                    {
+                        //shame them for their wrongdoing / being peter
+                    }
+                }
+            }))
+             present(alert, animated: true, completion: nil)
+             
+             }*/
+            
+            
         }
         else if indexPath.row == 2 //assumed to not be in join state
         {
@@ -181,7 +211,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     let lobbyNames = [String](dict.keys)
                     if lobbyNames.contains(name)
                     {
-                        
+                        let alert = UIAlertController(title: "Lobby Name Taken", message: "A lobby already exists with the name \"\(name)\"", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
                     else
                     {

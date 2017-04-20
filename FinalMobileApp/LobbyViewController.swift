@@ -77,6 +77,8 @@ class LobbyViewController: UITableViewController
     {
         let alert = UIAlertController(title: "Settings Menu", message: nil, preferredStyle: .actionSheet)
         
+        alert.addAction(UIAlertAction(title: "Show Password", style: .default, handler: passwordFlash))
+        
         for setting in defaultSettingsFor(game: .HideAndBeac)
         {
             alert.addAction(UIAlertAction(title: "\(setting.key): \(setting.value)", style: .default, handler: settingHandler))
@@ -89,6 +91,13 @@ class LobbyViewController: UITableViewController
     {
         let key = action.title?.components(separatedBy: ": ").first!
         //currentLobby.child("options").child(key).
+    }
+    
+    func passwordFlash(_: UIAlertAction)
+    {
+        //get password
+        //create alert with password visible
+        //automatically dismiss after 3 seconds.
     }
     
     func defaultSettingsFor(game: GameType) -> [String:Any]
