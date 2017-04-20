@@ -29,6 +29,8 @@ class LobbyViewController: UITableViewController
         return ref
     }
     
+    let uuid = UUID().uuidString
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -39,14 +41,32 @@ class LobbyViewController: UITableViewController
             return
         }
         
-        currentLobby.child("players").childByAutoId().updateChildValues(["name": deviceName, "role": 0])
+        currentLobby.child("players").child(uuid).updateChildValues(["name": deviceName, "role": 0])
         
         gameType = .HideAndBeac
         settings = defaultSettingsFor(game: gameType)
-        print(settings)
+        currentLobby.child("settings").updateChildValues(settings)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(settingsButton))
         goToView(withID: "newGame", handler: nil)
+    }
+    
+    deinit
+    {
+        currentLobby.child("players").child(uuid).removeValue()
+        /*currentLobby.child("players").observe(.value, with:
+        {   (snap) in
+            if let value = snap.value as? [String: Any]
+            {
+                print(value.count)
+                if value.count == 1 //only host remains
+                {
+                    print("AYY")
+                    self.currentLobby.removeValue()
+                    print("LMAO")
+                }
+            }
+        })*/
     }
     
     func settingsButton()
@@ -56,8 +76,9 @@ class LobbyViewController: UITableViewController
         for setting in defaultSettingsFor(game: .HideAndBeac)
         {
             alert.addAction(UIAlertAction(title: "\(setting.key): \(setting.value)", style: .default, handler: settingHandler))
-            
         }
+        
+        present(alert, animated: true, completion: nil)
     }
     
     func settingHandler(action: UIAlertAction)
@@ -72,5 +93,10 @@ class LobbyViewController: UITableViewController
         {
         case .HideAndBeac: return ["Countdown": 30, "Round Timer": 300]
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String?
+    {
+        return "Kick"
     }
 }

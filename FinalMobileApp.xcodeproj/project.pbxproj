@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3F018EA51E92A4B8008262ED /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F018EA41E92A4B8008262ED /* LobbyViewController.swift */; };
 		3F2A0D4E1E97E17B004ED93E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F2A0D4D1E97E17B004ED93E /* GoogleService-Info.plist */; };
-		3F4221D71E815C7C00464FEA /* HideAndSeekMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4221D61E815C7C00464FEA /* HideAndSeekMenu.swift */; };
 		3F4221D91E815EA700464FEA /* GlobalUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4221D81E815EA700464FEA /* GlobalUtility.swift */; };
 		3F4FC7AC1E79A49700053969 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7AB1E79A49700053969 /* AppDelegate.swift */; };
 		3F4FC7AE1E79A49700053969 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7AD1E79A49700053969 /* ViewController.swift */; };
@@ -55,7 +54,6 @@
 		1C105E080B65A497E208986F /* Pods-FinalMobileAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMobileAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FinalMobileAppTests/Pods-FinalMobileAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		3F018EA41E92A4B8008262ED /* LobbyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LobbyViewController.swift; sourceTree = "<group>"; };
 		3F2A0D4D1E97E17B004ED93E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		3F4221D61E815C7C00464FEA /* HideAndSeekMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HideAndSeekMenu.swift; sourceTree = "<group>"; };
 		3F4221D81E815EA700464FEA /* GlobalUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalUtility.swift; sourceTree = "<group>"; };
 		3F4FC7A81E79A49700053969 /* FinalMobileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalMobileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F4FC7AB1E79A49700053969 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -165,7 +163,6 @@
 				3FCBABA21E82E25D005D888C /* BeaconManager.swift */,
 				3FDDBB111E97B68D00001842 /* CreateLobbyFieldCell.swift */,
 				3F4221D81E815EA700464FEA /* GlobalUtility.swift */,
-				3F4221D61E815C7C00464FEA /* HideAndSeekMenu.swift */,
 				3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */,
 				3F018EA41E92A4B8008262ED /* LobbyViewController.swift */,
 				3F4FC7AD1E79A49700053969 /* ViewController.swift */,
@@ -502,7 +499,6 @@
 				3F4221D91E815EA700464FEA /* GlobalUtility.swift in Sources */,
 				3F598A2A1EA7AD18002553ED /* Lobby.swift in Sources */,
 				3F018EA51E92A4B8008262ED /* LobbyViewController.swift in Sources */,
-				3F4221D71E815C7C00464FEA /* HideAndSeekMenu.swift in Sources */,
 				3F4FC7AC1E79A49700053969 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

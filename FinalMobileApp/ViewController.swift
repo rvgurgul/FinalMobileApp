@@ -64,30 +64,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         lobbies = [String:String]()
         ref.observeSingleEvent(of: .value, with:
         {   (snap) in
-            if let dict = snap.value as? [String:Any]
-            {
-                print("A")
-                print(dict)
-                let lobbyNames = dict.keys
-                for lobbyName in lobbyNames {
-                    print("B")
-                    print(lobbyName)
+            if let dict = snap.value as? [String:Any] {
+                for lobbyName in dict.keys {
                     if let lobbyDict = dict[lobbyName] as? [String:Any] {
-                        print("C")
-                        print(lobbyDict)
                         if let players = lobbyDict["players"] as? [String:Any] {
-                            print("D")
-                            print(players)
-                            if let host = players["host"] as? String{
-                                print("E")
-                                print(host)
+                            if let host = players["host"] as? String
+                            {
                                 let lobby = Lobby(name: lobbyName, host: host, pass: "")
                                 
                                 self.lobbies[lobbyName] = host
                                 self.tableView.reloadData()
                                 self.refreshControl.endRefreshing()
-                                print("F")
-                                print(self.lobbies)
                             }
                         }
                     }
