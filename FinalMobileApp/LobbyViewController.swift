@@ -19,6 +19,8 @@ class LobbyViewController: UITableViewController
     var gameType: GameType!
     var settings: [String:Any]!
     
+    var hosting = false
+    
     var lobbyName: String? = nil
     var currentLobby: FIRDatabaseReference
     {
@@ -43,30 +45,32 @@ class LobbyViewController: UITableViewController
         
         currentLobby.child("players").child(uuid).updateChildValues(["name": deviceName, "role": 0])
         
-        gameType = .HideAndBeac
-        settings = defaultSettingsFor(game: gameType)
-        currentLobby.child("settings").updateChildValues(settings)
+        if hosting
+        {
+            gameType = .HideAndBeac
+            settings = defaultSettingsFor(game: gameType)
+            currentLobby.child("settings").updateChildValues(settings)
+            currentLobby.child("players").updateChildValues(["host": deviceName])
+        }
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(settingsButton))
-        goToView(withID: "newGame", handler: nil)
+        
+        //goToView(withID: "newGame", handler: nil)
     }
     
     deinit
     {
         currentLobby.child("players").child(uuid).removeValue()
-        /*currentLobby.child("players").observe(.value, with:
+        currentLobby.child("players").observe(.value, with:
         {   (snap) in
             if let value = snap.value as? [String: Any]
             {
-                print(value.count)
-                if value.count == 1 //only host remains
+                if value.count == 1 //only "host" remains
                 {
-                    print("AYY")
-                    self.currentLobby.removeValue()
-                    print("LMAO")
+                    snap.ref.parent!.removeValue()
                 }
             }
-        })*/
+        })
     }
     
     func settingsButton()

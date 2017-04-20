@@ -155,7 +155,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        if !viewIsInJoinState && indexPath.row == 2
+        if viewIsInJoinState
+        {
+            goToView(withID: "newLobby", handler:
+                {   (vc) in
+                    if let nextVC = vc as? LobbyViewController
+                    {
+                        nextVC.lobbyName = [String](self.lobbies.keys)[indexPath.row]
+                    }
+            })
+        }
+        else if indexPath.row == 2 //assumed to not be in join state
         {
             let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! CreateLobbyFieldCell
             let passCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! CreateLobbyFieldCell
@@ -182,18 +192,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             if let lobby = vc as? LobbyViewController
                             {
                                 lobby.lobbyName = name
+                                lobby.hosting = true
                             }
                         })
                     }
-                }
-            })
-        }
-        else
-        {
-            goToView(withID: "newLobby", handler: { (vc) in
-                if let nextVC = vc as? LobbyViewController
-                {
-                    nextVC.lobbyName = [String](self.lobbies.keys)[indexPath.row]
                 }
             })
         }
