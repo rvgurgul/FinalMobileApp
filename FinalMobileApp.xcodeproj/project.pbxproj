@@ -53,6 +53,7 @@
 		0FCD5E60CCC6C47CDC2120FF /* Pods_FinalMobileAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalMobileAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C105E080B65A497E208986F /* Pods-FinalMobileAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMobileAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FinalMobileAppTests/Pods-FinalMobileAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		3F018EA41E92A4B8008262ED /* LobbyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LobbyViewController.swift; sourceTree = "<group>"; };
+		3F070B741EAA4C1D004FABA8 /* FinalMobileApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FinalMobileApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		3F2A0D4D1E97E17B004ED93E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F4221D81E815EA700464FEA /* GlobalUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalUtility.swift; sourceTree = "<group>"; };
 		3F4FC7A81E79A49700053969 /* FinalMobileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalMobileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,6 +173,7 @@
 				3F4FC7B21E79A49700053969 /* Assets.xcassets */,
 				3F4FC7B71E79A49700053969 /* Info.plist */,
 				3F2A0D4D1E97E17B004ED93E /* GoogleService-Info.plist */,
+				3F070B741EAA4C1D004FABA8 /* FinalMobileApp-Bridging-Header.h */,
 			);
 			path = FinalMobileApp;
 			sourceTree = "<group>";
@@ -287,6 +289,7 @@
 				TargetAttributes = {
 					3F4FC7A71E79A49700053969 = {
 						CreatedOnToolsVersion = 8.0;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					3F4FC7BB1E79A49700053969 = {
@@ -652,6 +655,7 @@
 			baseConfigurationReference = BC18E743E83D8A536F6D263F /* Pods-FinalMobileApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -660,6 +664,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MobileApps.FinalMobileApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FinalMobileApp/FinalMobileApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -669,6 +675,7 @@
 			baseConfigurationReference = D2D127888C4159250B57A2CA /* Pods-FinalMobileApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -677,6 +684,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MobileApps.FinalMobileApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FinalMobileApp/FinalMobileApp-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

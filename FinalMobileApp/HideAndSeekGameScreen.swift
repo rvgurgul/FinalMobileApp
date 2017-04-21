@@ -8,17 +8,35 @@
 
 import UIKit
 
-class HideAndSeekGameScreen: UIViewController
+class HideAndSeekGameScreen: UIViewController,  ESTBeaconManagerDelegate
 {
     var time = 300
     var tim: Timer!
+    
+     let beaconManager = ESTBeaconManager()
+    
+   
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
+        
+        self.beaconManager.delegate = self
+        self.beaconManager.requestAlwaysAuthorization() //not sure if this needed here
+
+        
+        let beaconRegion = CLBeaconRegion(
+            proximityUUID: UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!, identifier: "ranged region") // lil blue
+        
+        self.beaconManager.startRangingBeacons(in: beaconRegion)
+        
+        
+        
+        
         tim = Timer(timeInterval: 1, target: self, selector: #selector(timeStep), userInfo: nil, repeats: true)
     }
+    
     
     func timeStep()
     {
@@ -36,6 +54,56 @@ class HideAndSeekGameScreen: UIViewController
         }
     }
 
+    
+    //finds beacons, array of beacons with that uuid is beacons, this func updates every 1 second
+    func beaconManager(_ manager: Any, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion)
+    {
+        var thisOneBoi = beacons.first!
+        
+        var number = calcDis(thisOneBoi: thisOneBoi)  // distance
+    
+
+    }
+    
+    //calculate the distance
+    func calcDis(thisOneBoi: CLBeacon) -> Double
+    {
+        var rssi: Double = Double(thisOneBoi.rssi)
+        var txPower = -66.0 //internet said this is the power for when the beaonc is on -4db which is the defalt
+        
+        
+        if (rssi == 0)
+        {
+            return -1.0 // if we cannot determine accuracy, return -1.
+        }
+        
+        var ratio: Double = rssi * 1.0/txPower;
+        
+        if (ratio < 1.0)
+        {
+            return pow(ratio,10)
+        }
+        else
+        {
+            var accuracy : Double =  (0.89976) * pow(ratio,7.7095) + 0.111;
+            return accuracy
+        }
+     
+        
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /*override func numberOfSections(in tableView: UITableView) -> Int{
         return 1
     }
