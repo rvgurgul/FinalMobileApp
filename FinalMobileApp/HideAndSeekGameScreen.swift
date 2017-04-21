@@ -8,12 +8,12 @@
 
 import UIKit
 
-class HideAndSeekGameScreen: UIViewController,  ESTBeaconManagerDelegate
+class HideAndSeekGameScreen: UIViewController, ESTBeaconManagerDelegate
 {
     var time = 300
     var tim: Timer!
     
-     let beaconManager = ESTBeaconManager()
+    let beaconManager = ESTBeaconManager()
     
    
     
@@ -58,9 +58,9 @@ class HideAndSeekGameScreen: UIViewController,  ESTBeaconManagerDelegate
     //finds beacons, array of beacons with that uuid is beacons, this func updates every 1 second
     func beaconManager(_ manager: Any, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion)
     {
-        var thisOneBoi = beacons.first!
+        let thisOneBoi = beacons.first!
         
-        var number = calcDis(thisOneBoi: thisOneBoi)  // distance
+        let number = calcDis(thisOneBoi: thisOneBoi)  // distance
     
 
     }

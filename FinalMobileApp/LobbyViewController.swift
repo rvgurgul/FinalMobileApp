@@ -21,10 +21,10 @@ class LobbyViewController: UITableViewController
     
     var hosting = false
     
-    var lobbyName: String? = nil
+    var lobby: Lobby? = nil
     var currentLobby: FIRDatabaseReference
     {
-        if let branch = lobbyName
+        if let branch = lobby!.name
         {
             return ref.child(branch)
         }
@@ -37,7 +37,7 @@ class LobbyViewController: UITableViewController
     {
         super.viewDidLoad()
         
-        guard lobbyName != nil else
+        guard lobby != nil else
         {
             self.dismiss(animated: true, completion: nil)
             return
@@ -77,7 +77,10 @@ class LobbyViewController: UITableViewController
     {
         let alert = UIAlertController(title: "Settings Menu", message: nil, preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: "Show Password", style: .default, handler: passwordFlash))
+        if lobby!.pass != nil
+        {
+            alert.addAction(UIAlertAction(title: "Show Password", style: .default, handler: passwordFlash))
+        }
         
         for setting in defaultSettingsFor(game: .HideAndBeac)
         {
@@ -89,15 +92,35 @@ class LobbyViewController: UITableViewController
     
     func settingHandler(action: UIAlertAction)
     {
-        let key = action.title?.components(separatedBy: ": ").first!
-        //currentLobby.child("options").child(key).
+        if let parts = action.title?.components(separatedBy: ": ")
+        {
+            let alert = UIAlertController(title: "Change \(parts[0])", message: nil, preferredStyle: .alert)
+            alert.addTextField
+            {   (field) in
+                field.placeholder = parts[1]
+            }
+            alert.addAction(UIAlertAction(title: "Done", style: .default, handler:
+            {   _ in
+                if let input = alert.textFields?[0].text! {
+                    if let output = Int(input)
+                    {
+                        self.currentLobby.child("settings").updateChildValues([parts[0]: output])
+                    }
+                }
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
     }
     
     func passwordFlash(_: UIAlertAction)
     {
-        //get password
-        //create alert with password visible
-        //automatically dismiss after 3 seconds.
+        let alert = UIAlertController(title: "Password: \n\(lobby!.pass!)", message: "This message will disappear after 3 seconds.", preferredStyle: .alert)
+        present(alert, animated: true)
+        {
+            sleep(3)
+            alert.dismiss(animated: true, completion: nil)
+        }
     }
     
     func defaultSettingsFor(game: GameType) -> [String:Any]

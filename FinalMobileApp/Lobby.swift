@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct Lobby
+class Lobby
 {
-    var name: String
-    var host: String
+    var name: String!
+    var host: String!
     var pass: String?
     
     init(name: String, host: String, pass: String?)
@@ -19,6 +19,23 @@ struct Lobby
         self.name = name
         self.host = host
         self.pass = pass
+    }
+    
+    init(name: String, dict: [String:Any])
+    {
+        self.name = name
+        
+        if let players = dict["players"] as? [String:Any] {
+            if let host = players["host"] as? String
+            {
+                self.host = host
+            }
+        }
+        
+        if let password = dict["password"] as? String
+        {
+            self.pass = password
+        }
     }
     
     func valid(password: String) -> Bool

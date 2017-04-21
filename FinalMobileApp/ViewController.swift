@@ -30,7 +30,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var refreshControl: UIRefreshControl!
     
-    var lobbies = [String:String]()
+    var lobbies = [Lobby]()//[String:String]()
     
     override func viewDidLoad()
     {
@@ -51,7 +51,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         grabLobbies()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "wifi"), style: .plain, target: self, action: #selector(connectBeacon))
+        tabBar.selectedItem = tabBar.items![0]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "wifi"), style: .plain, target: self, action: #selector(connectBeacon))
    
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -61,25 +62,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func grabLobbies()
     {
-        lobbies = [String:String]()
+        lobbies.removeAll()
         ref.observeSingleEvent(of: .value, with:
         {   (snap) in
             if let dict = snap.value as? [String:Any] {
                 for lobbyName in dict.keys {
                     if let lobbyDict = dict[lobbyName] as? [String:Any] {
-                        if let players = lobbyDict["players"] as? [String:Any] {
-                            if let host = players["host"] as? String
-                            {
-                                let lobby = Lobby(name: lobbyName, host: host, pass: "")
-                                
-                                self.lobbies[lobbyName] = host
-                                self.tableView.reloadData()
-                                self.refreshControl.endRefreshing()
-                            }
-                        }
+                        self.lobbies.append(Lobby(name: lobbyName, dict: lobbyDict))
                     }
                 }
             }
+            self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
         })
     }
     
@@ -115,8 +109,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if viewIsInJoinState
         {
             let cell = tableView.dequeueReusableCell(withIdentifier: "joinCell")!
-            cell.textLabel?.text = [String](lobbies.keys)[indexPath.row]
-            cell.detailTextLabel?.text = [String](lobbies.values)[indexPath.row]
+            let lobby = lobbies[indexPath.row]
+            
+            cell.textLabel?.text = lobby.name//[String](lobbies.keys)[indexPath.row]
+            cell.detailTextLabel?.text = lobby.host//[String](lobbies.values)[indexPath.row]
             return cell
         }
         else
@@ -157,43 +153,49 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     {
         if viewIsInJoinState
         {
-            goToView(withID: "newLobby", handler:
-            {   (vc) in
-                if let nextVC = vc as? LobbyViewController
-                {
-                    nextVC.lobbyName = [String](self.lobbies.keys)[indexPath.row]
-                }
-            })
-            return
-            /*
             let lobby = lobbies[indexPath.row]
-            if lobby.password != nil
-             {
- 
-            let alert = UIAlertController(title: "Password protected lobby", message: nil, preferredStyle: .alert)
-            alert.addTextField(configurationHandler:
-            {   (field) in
-                field.placeholder = "(case sensitive)"
-            })
-            alert.addAction(UIAlertAction(title: "Enter", style: .default, handler:
-            {   _ in
-                if let input = alert.textFields?[0].text
-                {
-                    if input == lobby.password
+            if lobby.pass != nil
+            {
+                let alert = UIAlertController(title: "Password protected lobby", message: nil, preferredStyle: .alert)
+                alert.addTextField(configurationHandler:
+                {   (field) in
+                    field.placeholder = "(case sensitive)"
+                    field.isSecureTextEntry = true
+                })
+                alert.addAction(UIAlertAction(title: "Enter", style: .default, handler:
+                {   _ in
+                    if let input = alert.textFields?[0].text
                     {
-                        //goToView
+                        if input == lobby.pass
+                        {
+                            self.goToView(withID: "newLobby", handler:
+                            {   (vc) in
+                                if let nextVC = vc as? LobbyViewController
+                                {
+                                    nextVC.lobby = self.lobbies[indexPath.row]
+                                }
+                            })
+                        }
+                        else
+                        {
+                            let wrongAlert = UIAlertController(title: "Wrong", message: "That password is incorrect.", preferredStyle: .alert)
+                            wrongAlert.addAction(UIAlertAction(title: "China", style: .cancel, handler: nil))
+                            self.present(wrongAlert, animated: true, completion: nil)
+                        }
                     }
-                    else
+                }))
+                present(alert, animated: true, completion: nil)
+            }
+            else
+            {
+                goToView(withID: "newLobby", handler:
+                {   (vc) in
+                    if let nextVC = vc as? LobbyViewController
                     {
-                        //shame them for their wrongdoing / being peter
+                        nextVC.lobby = self.lobbies[indexPath.row]
                     }
-                }
-            }))
-             present(alert, animated: true, completion: nil)
-             
-             }*/
-            
-            
+                })
+            }
         }
         else if indexPath.row == 2 //assumed to not be in join state
         {
@@ -223,7 +225,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         {   (vc) in
                             if let lobby = vc as? LobbyViewController
                             {
-                                lobby.lobbyName = name
+                                lobby.lobby = Lobby(name: name, dict: ["password": pass, "host": deviceName])
                                 lobby.hosting = true
                             }
                         })
