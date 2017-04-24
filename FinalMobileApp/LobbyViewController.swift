@@ -47,18 +47,19 @@ class LobbyViewController: UITableViewController
         
         if hosting
         {
-            gameType = .HideAndBeac
-            settings = defaultSettingsFor(game: gameType)
             currentLobby.child("settings").updateChildValues(settings)
             currentLobby.child("players").updateChildValues(["host": deviceName])
         }
+        
+        gameType = .HideAndBeac
+        settings = defaultSettingsFor(game: gameType)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(settingsButton))
         
         //goToView(withID: "newGame", handler: nil)
     }
     
-    deinit
+    deinit //viewDidUnload()
     {
         currentLobby.child("players").child(uuid).removeValue()
         currentLobby.child("players").observe(.value, with:
@@ -77,13 +78,11 @@ class LobbyViewController: UITableViewController
     {
         let alert = UIAlertController(title: "Settings Menu", message: nil, preferredStyle: .actionSheet)
         
-        if lobby!.pass != nil
-        {
+        if lobby!.pass != nil {
             alert.addAction(UIAlertAction(title: "Show Password", style: .default, handler: passwordFlash))
         }
         
-        for setting in defaultSettingsFor(game: .HideAndBeac)
-        {
+        for setting in settings {
             alert.addAction(UIAlertAction(title: "\(setting.key): \(setting.value)", style: .default, handler: settingHandler))
         }
         
