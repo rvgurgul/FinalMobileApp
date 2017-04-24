@@ -17,7 +17,7 @@ enum GameType: String
 class LobbyViewController: UITableViewController
 {
     var gameType: GameType!
-    var settings: [String:Any]!
+    var settings: [String:Int]!
     
     var hosting = false
     
@@ -45,15 +45,16 @@ class LobbyViewController: UITableViewController
         
         currentLobby.child("players").child(uuid).updateChildValues(["name": deviceName, "role": 0])
         
+        gameType = .HideAndBeac
+        settings = defaultSettingsFor(game: gameType)
+        
         if hosting
         {
             currentLobby.child("settings").updateChildValues(settings)
             currentLobby.child("players").updateChildValues(["host": deviceName])
         }
         
-        gameType = .HideAndBeac
-        settings = defaultSettingsFor(game: gameType)
-        
+        navigationItem.title = lobby?.name
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(settingsButton))
         
         //goToView(withID: "newGame", handler: nil)
@@ -62,12 +63,13 @@ class LobbyViewController: UITableViewController
     deinit //viewDidUnload()
     {
         currentLobby.child("players").child(uuid).removeValue()
-        currentLobby.child("players").observe(.value, with:
+        currentLobby.child("players").observeSingleEvent(of: .value, with:
         {   (snap) in
             if let value = snap.value as? [String: Any]
             {
                 if value.count == 1 //only "host" remains
                 {
+                    //goes up 1 level and destroys the lobby.
                     snap.ref.parent!.removeValue()
                 }
             }
@@ -83,10 +85,65 @@ class LobbyViewController: UITableViewController
         }
         
         for setting in settings {
-            alert.addAction(UIAlertAction(title: "\(setting.key): \(setting.value)", style: .default, handler: settingHandler))
+            alert.addAction(SettingsAlertAction(setting: setting))
         }
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    func passwordFlash(_: UIAlertAction)
+    {
+        let alert = UIAlertController(title: "Password: \n\(lobby!.pass!)", message: "This message will disappear after 3 seconds.", preferredStyle: .alert)
+        present(alert, animated: true)
+        {
+            sleep(3)
+            alert.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func defaultSettingsFor(game: GameType) -> [String:Int]
+    {
+        switch game
+        {
+        case .HideAndBeac: return ["Countdown": 30, "Round Timer": 300]
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool
+    {
+        return hosting
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
+    {
+        if editingStyle == .delete
+        {
+            tableView.deleteRows(at: [indexPath], with: .left)
+            //remove player from Firebase & kick them.
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String?
+    {
+        return "Kick"
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return 6
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "player")!
+        cell.textLabel?.text = "Device Name"
+        cell.detailTextLabel?.text = "UUID"
+        return cell
+    }
+    
+    func SettingsAlertAction(setting: (String, Int)) -> UIAlertAction
+    {
+        return UIAlertAction(title: "\(setting.0): \(setting.1)", style: .default, handler: settingHandler)
     }
     
     func settingHandler(action: UIAlertAction)
@@ -104,34 +161,12 @@ class LobbyViewController: UITableViewController
                     if let output = Int(input)
                     {
                         self.currentLobby.child("settings").updateChildValues([parts[0]: output])
+                        self.settings[parts[0]] = output
                     }
                 }
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
         }
-    }
-    
-    func passwordFlash(_: UIAlertAction)
-    {
-        let alert = UIAlertController(title: "Password: \n\(lobby!.pass!)", message: "This message will disappear after 3 seconds.", preferredStyle: .alert)
-        present(alert, animated: true)
-        {
-            sleep(3)
-            alert.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    func defaultSettingsFor(game: GameType) -> [String:Any]
-    {
-        switch game
-        {
-        case .HideAndBeac: return ["Countdown": 30, "Round Timer": 300]
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String?
-    {
-        return "Kick"
     }
 }

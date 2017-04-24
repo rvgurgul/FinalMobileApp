@@ -32,7 +32,7 @@ class Lobby
             }
         }
         
-        if let password = dict["password"] as? String
+        if let password = dict["password"] as? String, password != ""
         {
             self.pass = password
         }
