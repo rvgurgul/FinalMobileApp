@@ -121,8 +121,10 @@ var beaconRange: CLBeaconRegion
     return CLBeaconRegion(proximityUUID: uuid, major: maj, minor: min, identifier: "BEAC")
 }
 
-var players: [UUID:String] = [:]
-var distanceFromBeacon: [UUID:Double] = [:]
+func cancelAction(withTitle title: String?) -> UIAlertAction
+{
+    return UIAlertAction(title: title, style: .cancel, handler: nil)
+}
 
 /*
 func region(for player: Player) -> CLBeaconRegion

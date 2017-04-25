@@ -52,12 +52,11 @@ class LobbyViewController: UITableViewController
         {
             currentLobby.child("settings").updateChildValues(settings)
             currentLobby.child("players").updateChildValues(["host": deviceName])
+            currentLobby.child("beacon").updateChildValues(["uuid": beaconUUID, "major": beaconMajor, "minor": beaconMinor])
         }
         
         navigationItem.title = lobby?.name
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(settingsButton))
-        
-        //goToView(withID: "newGame", handler: nil)
     }
     
     deinit //viewDidUnload()
@@ -87,6 +86,8 @@ class LobbyViewController: UITableViewController
         for setting in settings {
             alert.addAction(SettingsAlertAction(setting: setting))
         }
+        
+        alert.addAction(cancelAction(withTitle: "Cancel"))
         
         present(alert, animated: true, completion: nil)
     }
@@ -165,7 +166,7 @@ class LobbyViewController: UITableViewController
                     }
                 }
             }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(cancelAction(withTitle: "Cancel"))
             present(alert, animated: true, completion: nil)
         }
     }
