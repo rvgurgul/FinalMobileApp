@@ -20,6 +20,7 @@ class LobbyViewController: UITableViewController
     var settings: [String:Int]!
     
     var hosting = false
+    var ready = false
     
     var lobby: Lobby? = nil
     var currentLobby: FIRDatabaseReference
@@ -43,7 +44,7 @@ class LobbyViewController: UITableViewController
             return
         }
         
-        currentLobby.child("players").child(uuid).updateChildValues(["name": deviceName, "role": 0])
+        currentLobby.child("players").child(uuid).updateChildValues(["name": deviceName, "role": 0, "ready": false])
         
         gameType = .HideAndBeac
         settings = defaultSettingsFor(game: gameType)
@@ -78,6 +79,13 @@ class LobbyViewController: UITableViewController
     func settingsButton()
     {
         let alert = UIAlertController(title: "Settings Menu", message: nil, preferredStyle: .actionSheet)
+        
+        let rdyTxt = ready ? "Unready" : "Ready Up"
+        alert.addAction(title: rdyTxt, style: .destructive, handler:
+        {   _ in
+            self.ready = !self.ready
+            //do the readying up stuff here
+        })
         
         if lobby!.pass != nil {
             alert.addAction(UIAlertAction(title: "Show Password", style: .default, handler: passwordFlash))

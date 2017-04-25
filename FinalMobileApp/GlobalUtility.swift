@@ -126,6 +126,14 @@ func cancelAction(withTitle title: String?) -> UIAlertAction
     return UIAlertAction(title: title, style: .cancel, handler: nil)
 }
 
+extension UIAlertController
+{
+    func addAction(title: String, style: UIAlertActionStyle, handler: @escaping (UIAlertAction) -> Void)
+    {
+        self.addAction(UIAlertAction(title: title, style: style, handler: handler))
+    }
+}
+
 /*
 func region(for player: Player) -> CLBeaconRegion
 {
