@@ -19,6 +19,8 @@ class LobbyViewController: UITableViewController
     var gameType: GameType!
     var settings: [String:Int]!
     
+    var players = [Player]()
+    
     var hosting = false
     var ready = false
     
@@ -58,6 +60,44 @@ class LobbyViewController: UITableViewController
         
         navigationItem.title = lobby?.name
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(settingsButton))
+        
+        currentLobby.child("players").observe(.childAdded, with:
+        {   (snap) in
+            print("Added")
+            if let value = snap.value as? [String:Any]
+            {
+                let uuid = snap.key
+                let name = value["name"] as! String
+                let role = value["role"] as! Int
+                
+                self.players.append(Player(uuid, name, role))
+                self.tableView.reloadData()
+            }
+        })
+        {   (err) in
+            print(err)
+        }
+        
+        currentLobby.child("players").observe(.childRemoved, with:
+        {   (snap) in
+            print("Removed")
+            if uuid == snap.key //player has been kicked, deal with them
+            {
+                
+            }
+            
+            for i in 0..<self.players.count
+            {
+                if self.players[i].uuid == snap.key
+                {
+                    self.players.remove(at: i)
+                    self.tableView.reloadData()
+                }
+            }
+        })
+        {   (err) in
+            print(err)
+        }
     }
     
     deinit //viewDidUnload()
@@ -74,6 +114,8 @@ class LobbyViewController: UITableViewController
                 }
             }
         })
+        
+        currentLobby.child("players").removeAllObservers()
     }
     
     func settingsButton()
@@ -127,6 +169,10 @@ class LobbyViewController: UITableViewController
     {
         if editingStyle == .delete
         {
+            let uuid = players[indexPath.row].uuid
+            currentLobby.child("players").child(uuid).removeValue() //deletes them on Firebase
+            
+            players.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .left)
             //remove player from Firebase & kick them.
         }
@@ -139,14 +185,16 @@ class LobbyViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return 6
+        return players.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "player")!
-        cell.textLabel?.text = "Device Name"
-        cell.detailTextLabel?.text = "UUID"
+        let player = players[indexPath.row]
+        
+        cell.textLabel?.text = player.name //"Device Name"
+        cell.detailTextLabel?.text = player.uuid //"UUID"
         return cell
     }
     

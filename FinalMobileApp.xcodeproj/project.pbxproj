@@ -17,7 +17,7 @@
 		3F4FC7B61E79A49700053969 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F4FC7B41E79A49700053969 /* LaunchScreen.storyboard */; };
 		3F4FC7C11E79A49700053969 /* FinalMobileAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7C01E79A49700053969 /* FinalMobileAppTests.swift */; };
 		3F4FC7CC1E79A49700053969 /* FinalMobileAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7CB1E79A49700053969 /* FinalMobileAppUITests.swift */; };
-		3F598A2A1EA7AD18002553ED /* Lobby.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F598A291EA7AD18002553ED /* Lobby.swift */; };
+		3F598A2A1EA7AD18002553ED /* CustomClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F598A291EA7AD18002553ED /* CustomClasses.swift */; };
 		3FC5E19F1E9E7227008A5088 /* EstimoteSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E19E1E9E7227008A5088 /* EstimoteSDK.framework */; };
 		3FC5E1A11E9E734E008A5088 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E1A01E9E734E008A5088 /* CoreGraphics.framework */; };
 		3FC5E1A31E9E7359008A5088 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E1A21E9E7359008A5088 /* UIKit.framework */; };
@@ -69,7 +69,7 @@
 		3F4FC7C71E79A49700053969 /* FinalMobileAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalMobileAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F4FC7CB1E79A49700053969 /* FinalMobileAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalMobileAppUITests.swift; sourceTree = "<group>"; };
 		3F4FC7CD1E79A49700053969 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3F598A291EA7AD18002553ED /* Lobby.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lobby.swift; sourceTree = "<group>"; };
+		3F598A291EA7AD18002553ED /* CustomClasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomClasses.swift; sourceTree = "<group>"; };
 		3FC5E19E1E9E7227008A5088 /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EstimoteSDK.framework; path = "../iOS-SDK-master/EstimoteSDK/EstimoteSDK.framework"; sourceTree = "<group>"; };
 		3FC5E1A01E9E734E008A5088 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3FC5E1A21E9E7359008A5088 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -167,7 +167,7 @@
 				3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */,
 				3F018EA41E92A4B8008262ED /* LobbyViewController.swift */,
 				3F4FC7AD1E79A49700053969 /* ViewController.swift */,
-				3F598A291EA7AD18002553ED /* Lobby.swift */,
+				3F598A291EA7AD18002553ED /* CustomClasses.swift */,
 				3F4FC7AF1E79A49700053969 /* Main.storyboard */,
 				3F4FC7B41E79A49700053969 /* LaunchScreen.storyboard */,
 				3F4FC7B21E79A49700053969 /* Assets.xcassets */,
@@ -500,7 +500,7 @@
 				3FCBABA11E82CA1E005D888C /* HideAndSeekGameScreen.swift in Sources */,
 				3F4FC7AE1E79A49700053969 /* ViewController.swift in Sources */,
 				3F4221D91E815EA700464FEA /* GlobalUtility.swift in Sources */,
-				3F598A2A1EA7AD18002553ED /* Lobby.swift in Sources */,
+				3F598A2A1EA7AD18002553ED /* CustomClasses.swift in Sources */,
 				3F018EA51E92A4B8008262ED /* LobbyViewController.swift in Sources */,
 				3F4FC7AC1E79A49700053969 /* AppDelegate.swift in Sources */,
 			);

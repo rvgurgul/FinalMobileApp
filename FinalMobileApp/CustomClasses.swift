@@ -13,6 +13,7 @@ class Lobby
     var name: String!
     var host: String!
     var pass: String?
+    var numPlayers: Int!
     
     init(name: String, host: String, pass: String?)
     {
@@ -26,6 +27,7 @@ class Lobby
         self.name = name
         
         if let players = dict["players"] as? [String:Any] {
+            numPlayers = players.count - 1 //exclude host element
             if let host = players["host"] as? String
             {
                 self.host = host
@@ -41,5 +43,19 @@ class Lobby
     func valid(password: String) -> Bool
     {
         return self.pass == nil || self.pass == password
+    }
+}
+
+class Player
+{
+    var uuid: String
+    var name: String
+    var role: Int
+    
+    init(_ uuid: String, _ name: String, _ role: Int)
+    {
+        self.uuid = uuid
+        self.name = name
+        self.role = role
     }
 }
