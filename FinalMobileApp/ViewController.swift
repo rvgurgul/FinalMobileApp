@@ -181,7 +181,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             let phrase = ["China", "Wrong", "Liberal Conspiracies", "Vladimir Putin", "Fox News", "Make America Great Again",  "Mike Pence", "Fake News", "Chyyyna", "This is the worst trade deal in the history of trade deals.", "Failing New York Times", "We're going to build a wall.", "Steven Bannon", "Sean Spicer", "Russia", "North Korea", "Anime is now illegal."].random()
                             
                             let wrongAlert = UIAlertController(title: "WRONG", message: phrase, preferredStyle: .alert)
-                            alert.addAction(cancelAction(withTitle: "OK"))
+                            wrongAlert.addAction(cancelAction(withTitle: "OK"))
                             self.present(wrongAlert, animated: true, completion: nil)
                         }
                     }
