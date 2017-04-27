@@ -82,6 +82,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if item.tag == 1 //Join
         {
             viewIsInJoinState = true
+            grabLobbies()
         }
         else if item.tag == 2 //Make
         {
@@ -239,7 +240,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func connectBeacon()
     {
-        let alert = UIAlertController(title: "Enter your beacon's information:", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Searching for beacons...", message: "", preferredStyle: .alert)
+        alert.addAction(cancelAction(withTitle: "Cancel"))
+        present(alert, animated: true, completion: nil)
+        
+        //get beacons from the beacon ranging function
+        //present action sheet to choose from available beacons
+        
+        /*let alert = UIAlertController(title: "Enter your beacon's information:", message: nil, preferredStyle: .alert)
         alert.addTextField
         {   (field) in
             field.placeholder = "Beacon UUID"
@@ -270,7 +278,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }))
         alert.addAction(cancelAction(withTitle: "Cancel"))
-        present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)*/
     }
     
 }

@@ -23,6 +23,12 @@ class LobbyViewController: UITableViewController
     
     var hosting = false
     var ready = false
+    {
+        didSet
+        {
+            currentLobby.child("players").child(branchID).updateChildValues(["ready": ready])
+        }
+    }
     
     var lobby: Lobby? = nil
     var currentLobby: FIRDatabaseReference
@@ -34,7 +40,7 @@ class LobbyViewController: UITableViewController
         return ref
     }
     
-    let uuid = UUID().uuidString
+    let branchID = UUID().uuidString
     
     override func viewDidLoad()
     {
@@ -46,20 +52,27 @@ class LobbyViewController: UITableViewController
             return
         }
         
-        currentLobby.child("players").child(uuid).updateChildValues(["name": deviceName, "role": 0, "ready": false])
+        //Initialize Player's Branch with name, role, and ready state.
+        currentLobby.child("players").child(branchID).updateChildValues(["name": deviceName, "role": 0, "ready": false])
         
+        //Default to
         gameType = .HideAndBeac
         settings = defaultSettingsFor(game: gameType)
+        
+        navigationItem.title = lobby?.name
         
         if hosting
         {
             currentLobby.child("settings").updateChildValues(settings)
             currentLobby.child("players").updateChildValues(["host": deviceName])
             currentLobby.child("beacon").updateChildValues(["uuid": beaconUUID, "major": beaconMajor, "minor": beaconMinor])
+            
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(settingsButton))
         }
-        
-        navigationItem.title = lobby?.name
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(settingsButton))
+        else
+        {
+            
+        }
         
         currentLobby.child("players").observe(.childAdded, with:
         {   (snap) in
@@ -67,11 +80,14 @@ class LobbyViewController: UITableViewController
             if let value = snap.value as? [String:Any]
             {
                 let uuid = snap.key
-                let name = value["name"] as! String
-                let role = value["role"] as! Int
-                
-                self.players.append(Player(uuid, name, role))
-                self.tableView.reloadData()
+                if self.branchID != uuid //don't include the host themself
+                {
+                    let name = value["name"] as! String
+                    let role = value["role"] as! Int
+                    
+                    self.players.append(Player(uuid, name, role))
+                    self.tableView.reloadData()
+                }
             }
         })
         {   (err) in
@@ -81,9 +97,16 @@ class LobbyViewController: UITableViewController
         currentLobby.child("players").observe(.childRemoved, with:
         {   (snap) in
             print("Removed")
-            if uuid == snap.key //player has been kicked, deal with them
+            if self.branchID == snap.key //player has been kicked, deal with them
             {
-                
+                let kickedAlert = UIAlertController(title: "You've been kicked!", message: nil, preferredStyle: .alert)
+                kickedAlert.addAction(title: "Dismiss", style: .cancel, handler:
+                {   _ in
+                    //dismisses lobby view controller (returns to main screen)
+                    let _ = self.navigationController?.popViewController(animated: true)
+                })
+                self.present(kickedAlert, animated: true, completion: nil)
+                return
             }
             
             for i in 0..<self.players.count
@@ -102,7 +125,7 @@ class LobbyViewController: UITableViewController
     
     deinit //viewDidUnload()
     {
-        currentLobby.child("players").child(uuid).removeValue()
+        currentLobby.child("players").child(branchID).removeValue()
         currentLobby.child("players").observeSingleEvent(of: .value, with:
         {   (snap) in
             if let value = snap.value as? [String: Any]
@@ -225,5 +248,22 @@ class LobbyViewController: UITableViewController
             alert.addAction(cancelAction(withTitle: "Cancel"))
             present(alert, animated: true, completion: nil)
         }
+    }
+    
+    func beaconConfiguration(beaconBranch ref: FIRDatabaseReference)
+    {
+        var beac = ("", 0, 0)
+        ref.observeSingleEvent(of: .value, with:
+        {   (snap) in
+            if let value = snap.value as? [String:Any]
+            {
+                beac.0 = value["uuid"] as! String
+                beac.1 = value["major"] as! Int
+                beac.2 = value["minor"] as! Int
+                
+                let alert = UIAlertController(title: "Beaacon Configuration", message: nil, preferredStyle: .alert)
+                //maybe we'll make it so that the user chooses the closest beacon and we do it that way.
+            }
+        })
     }
 }
