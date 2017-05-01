@@ -155,7 +155,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if viewIsInJoinState
         {
             let lobby = lobbies[indexPath.row]
-            if lobby.pass != nil
+            if lobby.gameState > 0
+            {
+                let alert = UIAlertController(title: "Game in progress!", message: "You cannot join this lobby at this time.", preferredStyle: .alert)
+                alert.addAction(cancelAction(withTitle: "OK"))
+                present(alert, animated: true, completion: nil)
+            }
+            else if lobby.pass != nil
             {
                 let alert = UIAlertController(title: "Password protected lobby", message: nil, preferredStyle: .alert)
                 alert.addTextField(configurationHandler:

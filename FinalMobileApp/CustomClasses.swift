@@ -14,6 +14,7 @@ class Lobby
     var host: String!
     var pass: String?
     var numPlayers: Int!
+    var gameState : Int!
     
     init(name: String, host: String, pass: String?)
     {
@@ -37,6 +38,11 @@ class Lobby
         if let password = dict["password"] as? String, password != ""
         {
             self.pass = password
+        }
+        
+        if let state = dict["gameState"] as? Int
+        {
+            self.gameState = state
         }
     }
     

@@ -24,28 +24,20 @@ import Firebase
  - = incomplete
  ~ = complete
  
- -Main Menu
- -Hide & Seek
- -lobby
- -invite people/show nearby phones
- -options
- -initial timer (~30s)
- -round timer (~5m)
- -hiders become seekers
- -who is next seeker (1st? 2nd to last? winner?)
- -ready up button
- -randomly pick a seeker/allow someone to choose
- -initial timer
- -begin round timer
- -seeker has large range beacon
- -seeker can see each player & distance to them
- -hiders can see each player & distance to them except the seeker.
- -after time is up, if all remaining hiders are together, they win
- -first/2nd to last player found becomes next seeker
- -Sharks & Minnows
- -3 beacons to triangulate position
- -CTF?
- -TTT?
+ -Beacons
+    - implement nearby beacon connection
+ 
+ -Firebase
+    - gameState branch that everyone observes for the start of the game.
+ 
+ -Functionality
+    - create another tableVC to serve as the game screen. (H = hider, S = seeker)
+        - H: frequently push distance to beacon up to firebase
+        - S: observe updates to each player's distance and refresh table view data
+    -add constraints onto the game settings
+        - countdown: 10-60
+        - game time: 120-1200
+ 
  
  */
 

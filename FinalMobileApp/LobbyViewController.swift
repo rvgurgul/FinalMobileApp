@@ -52,6 +52,9 @@ class LobbyViewController: UITableViewController
             return
         }
         
+        //Set the top bar to say the lobby's name.
+        navigationItem.title = lobby?.name
+        
         //Initialize Player's Branch with name, role, and ready state.
         currentLobby.child("players").child(branchID).updateChildValues(["name": deviceName, "role": 0, "ready": false])
         
@@ -59,10 +62,10 @@ class LobbyViewController: UITableViewController
         gameType = .HideAndBeac
         settings = defaultSettingsFor(game: gameType)
         
-        navigationItem.title = lobby?.name
-        
+        //Specifics based on whether the player is host or not.
         if hosting
         {
+            currentLobby.updateChildValues(["gameState": 0])
             currentLobby.child("settings").updateChildValues(settings)
             currentLobby.child("players").updateChildValues(["host": deviceName])
             currentLobby.child("beacon").updateChildValues(["uuid": beaconUUID, "major": beaconMajor, "minor": beaconMinor])
@@ -71,7 +74,7 @@ class LobbyViewController: UITableViewController
         }
         else
         {
-            
+            //set rightbaritem to a ready up button.
         }
         
         currentLobby.child("players").observe(.childAdded, with:
@@ -106,15 +109,16 @@ class LobbyViewController: UITableViewController
                     let _ = self.navigationController?.popViewController(animated: true)
                 })
                 self.present(kickedAlert, animated: true, completion: nil)
-                return
             }
-            
-            for i in 0..<self.players.count
+            else
             {
-                if self.players[i].uuid == snap.key
+                for i in 0..<self.players.count
                 {
-                    self.players.remove(at: i)
-                    self.tableView.reloadData()
+                    if self.players[i].uuid == snap.key
+                    {
+                        self.players.remove(at: i)
+                        self.tableView.reloadData()
+                    }
                 }
             }
         })
