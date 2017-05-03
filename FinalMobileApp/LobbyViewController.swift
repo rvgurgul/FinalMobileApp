@@ -77,6 +77,7 @@ class LobbyViewController: UITableViewController
             //set rightbaritem to a ready up button.
         }
         
+        //Listening for player joining
         currentLobby.child("players").observe(.childAdded, with:
         {   (snap) in
             print("Added")
@@ -97,6 +98,7 @@ class LobbyViewController: UITableViewController
             print(err)
         }
         
+        //Listening for player leaving
         currentLobby.child("players").observe(.childRemoved, with:
         {   (snap) in
             print("Removed")
@@ -125,6 +127,16 @@ class LobbyViewController: UITableViewController
         {   (err) in
             print(err)
         }
+        
+        //Listening for game-beginning
+        currentLobby.observe(.childChanged, with:
+        {   (snap) in
+            if snap.key == "gameState"
+            {
+                //go to hide&beac VC
+                //self.goToView(withID: <#T##String#>, handler: <#T##((UIViewController) -> Void)?##((UIViewController) -> Void)?##(UIViewController) -> Void#>)
+            }
+        })
     }
     
     deinit //viewDidUnload()

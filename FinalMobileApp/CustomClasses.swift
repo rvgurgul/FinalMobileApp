@@ -13,14 +13,16 @@ class Lobby
     var name: String!
     var host: String!
     var pass: String?
+    var gameState: Int! = 0
     var numPlayers: Int!
-    var gameState : Int!
     
     init(name: String, host: String, pass: String?)
     {
         self.name = name
         self.host = host
         self.pass = pass
+        gameState = 0
+        numPlayers = 0
     }
     
     init(name: String, dict: [String:Any])

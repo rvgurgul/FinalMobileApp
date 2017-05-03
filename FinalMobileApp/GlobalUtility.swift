@@ -34,7 +34,7 @@ import Firebase
     - create another tableVC to serve as the game screen. (H = hider, S = seeker)
         - H: frequently push distance to beacon up to firebase
         - S: observe updates to each player's distance and refresh table view data
-    -add constraints onto the game settings
+    - add constraints onto the game settings
         - countdown: 10-60
         - game time: 120-1200
  
