@@ -30,7 +30,7 @@ class LobbyViewController: UITableViewController
         }
     }
     
-    var lobby: Lobby? = nil
+    var lobby: Lobby?
     var currentLobby: FIRDatabaseReference
     {
         if let branch = lobby!.name
@@ -134,8 +134,14 @@ class LobbyViewController: UITableViewController
             if snap.key == "gameState"
             {
                 print("GAME IS STARTING")
-                //go to hide&beac VC
-                //self.goToView(withID: <#T##String#>, handler: <#T##((UIViewController) -> Void)?##((UIViewController) -> Void)?##(UIViewController) -> Void#>)
+                self.goToView(withID: "newGameVC", handler:
+                {   (vc) in
+                    if let nextVC = vc as? HideAndSeekGameScreen
+                    {
+                        nextVC.lobby = self.lobby
+                        nextVC.branchID = self.branchID
+                    }
+                })
             }
         })
     }
