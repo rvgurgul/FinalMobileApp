@@ -21,7 +21,6 @@ class HideAndSeekGameScreen: UIViewController, ESTBeaconManagerDelegate
     {
         super.viewDidLoad()
         
-        
         self.beaconManager.delegate = self
         self.beaconManager.requestAlwaysAuthorization() //not sure if this needed here
 

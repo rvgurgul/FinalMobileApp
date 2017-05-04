@@ -133,6 +133,7 @@ class LobbyViewController: UITableViewController
         {   (snap) in
             if snap.key == "gameState"
             {
+                print("GAME IS STARTING")
                 //go to hide&beac VC
                 //self.goToView(withID: <#T##String#>, handler: <#T##((UIViewController) -> Void)?##((UIViewController) -> Void)?##(UIViewController) -> Void#>)
             }

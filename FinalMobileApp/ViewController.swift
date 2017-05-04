@@ -112,8 +112,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let cell = tableView.dequeueReusableCell(withIdentifier: "joinCell")!
             let lobby = lobbies[indexPath.row]
             
-            cell.textLabel?.text = lobby.name//[String](lobbies.keys)[indexPath.row]
-            cell.detailTextLabel?.text = lobby.host//[String](lobbies.values)[indexPath.row]
+            cell.textLabel?.text = lobby.name
+            //[String](lobbies.keys)[indexPath.row]
+            cell.detailTextLabel?.text = lobby.host
+            //[String](lobbies.values)[indexPath.row]
             return cell
         }
         else
