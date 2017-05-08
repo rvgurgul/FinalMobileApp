@@ -69,9 +69,8 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     func beaconManager(_ manager: Any, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion)
     {
         let thisOneBoi = beacons.first!
-        
-        let number = calcDis(thisOneBoi: thisOneBoi)  // distance
-        
+        let number = beacons.first?.accuracy
+        // let number = calcDis(thisOneBoi: thisOneBoi)  // distance
         
         //PUSHES DISTANCE TO FIREBASE
         //(I'm assuming this would update the value every time it ranges a beacon, so maybe move this around so that it's not constantly updating so you can average it to get a better number.)
