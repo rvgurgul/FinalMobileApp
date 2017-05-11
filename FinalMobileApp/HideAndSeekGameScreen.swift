@@ -123,7 +123,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         var calcdis = calcDis(thisOneBoi: thisOneBoi)
         var givendis = beacons.first?.accuracy
         
-        
+        print("add to array")
         timesCalc.append(calcdis)
         timesAcc.append(givendis!)
         
@@ -211,6 +211,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     func AveragetimesAcc() -> Double
     {
         var sum = 0.00
+        print("boi")
         
         for i in timesAcc
         {
