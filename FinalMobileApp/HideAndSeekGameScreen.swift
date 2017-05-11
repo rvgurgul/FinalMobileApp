@@ -73,8 +73,15 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         self.beaconManager.startRangingBeacons(in: beaconRegion)
         
-        tim = Timer(timeInterval: 1, target: self, selector: #selector(timeStep), userInfo: nil, repeats: true)
+        
+        tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeStep), userInfo: nil, repeats: true)
+        
+        
     }
+    
+    
+    
+    
     
     //This ain't working. Mr. Peh the timer man, fix it por favor.
     func timeStep()
