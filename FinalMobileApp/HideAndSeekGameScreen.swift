@@ -27,15 +27,42 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     }
     
     var branchID: String!
+    var players: [Player]!
+    
+    var distances = [String: CLLocationAccuracy]()
+    {
+        didSet
+        {
+            self.tableView.reloadData()
+        }
+    }
    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        guard lobby != nil && branchID != nil else
+        guard lobby != nil && branchID != nil && players != nil else
         {
             self.dismiss(animated: true, completion: nil)
             return
+        }
+        
+        for player in players
+        {
+            let playerBranch = currentLobby.child("players").child(player.uuid)
+            playerBranch.observe(.childChanged, with:
+            {   (snap) in
+                print("we in there")
+                if snap.key == "dist"
+                {
+                    print("\(player.name)'s distance changed to:")
+                    if let value = snap.value as? Double
+                    {
+                        print(value)
+                        self.distances[snap.key] = value
+                    }
+                }
+            })
         }
         
         self.beaconManager.delegate = self
@@ -74,7 +101,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         //PUSHES DISTANCE TO FIREBASE
         //(I'm assuming this would update the value every time it ranges a beacon, so maybe move this around so that it's not constantly updating so you can average it to get a better number.)
-        currentLobby.child("players").child(branchID).updateChildValues(["distance": number])
+        currentLobby.child("players").child(branchID).updateChildValues(["dist": number])
     }
     
     //calculate the distance
@@ -101,22 +128,27 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         }
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int{
+    override func numberOfSections(in tableView: UITableView) -> Int
+    {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10//number of players
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return 10//players.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "playerInfo", for: indexPath)
-
-        cell.textLabel?.text = "Player name"
-        if true //player.hider = true
+        return cell
+        
+        let player = players[indexPath.row]
+        
+        cell.textLabel?.text = player.name
+        if player.role == 0
         {
-            cell.detailTextLabel?.text = "Distance to Player"
+            cell.detailTextLabel?.text = "\(distances[player.name])m" //player's distance
         }
 
         return cell
