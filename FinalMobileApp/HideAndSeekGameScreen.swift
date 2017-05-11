@@ -14,6 +14,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     var time = 300
     var tim: Timer!
     
+    
     let beaconManager = ESTBeaconManager()
     
     var lobby: Lobby?
@@ -36,6 +37,13 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
             self.tableView.reloadData()
         }
     }
+    
+    var timesCalc = [Double]()
+    var timesAcc = [Double]()
+    
+    var timp = Timer()
+    var jim = Timer()
+    
    
     override func viewDidLoad()
     {
@@ -63,6 +71,8 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
                     }
                 }
             })
+            
+            
         }
         
         self.beaconManager.delegate = self
@@ -75,6 +85,10 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         
         tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeStep), userInfo: nil, repeats: true)
+        
+        
+        timp = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(AveragetimesCalc), userInfo: nil, repeats: true)
+        jim = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(AveragetimesAcc), userInfo: nil, repeats: true)
         
         
     }
@@ -106,9 +120,20 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         let number = beacons.first?.accuracy
         // let number = calcDis(thisOneBoi: thisOneBoi)  // distance
         
+        var calcdis = calcDis(thisOneBoi: thisOneBoi)
+        var givendis = beacons.first?.accuracy
+        
+        
+        timesCalc.append(calcdis)
+        timesAcc.append(givendis!)
+        
+        
+        
+        
+        
         //PUSHES DISTANCE TO FIREBASE
         //(I'm assuming this would update the value every time it ranges a beacon, so maybe move this around so that it's not constantly updating so you can average it to get a better number.)
-        currentLobby.child("players").child(branchID).updateChildValues(["dist": number])
+      //  currentLobby.child("players").child(branchID).updateChildValues(["dist": number])
     }
     
     //calculate the distance
@@ -160,4 +185,63 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
 
         return cell
     }
+    
+    func AveragetimesCalc() -> Double
+    {
+        var sum = 0.00
+        
+        for i in timesCalc
+        {
+            sum += i
+        }
+        var average = sum / Double(timesCalc.count)
+        if timesCalc.count == 0
+        {
+            average = 0
+        }
+        
+        timesCalc.removeAll()
+        var feet = toFeet(meters: average)
+       // currentLobby.child("players").child(branchID).updateChildValues(["dist": feet])
+        return average
+        
+        
+    }
+    
+    func AveragetimesAcc() -> Double
+    {
+        var sum = 0.00
+        
+        for i in timesAcc
+        {
+            sum += i
+        }
+        var average = sum / Double(timesAcc.count)
+        if timesAcc.count == 0
+        {
+            average = 0
+        }
+        
+        timesAcc.removeAll()
+        var feet = toFeet(meters: average)
+        currentLobby.child("players").child(branchID).updateChildValues(["dist": feet])
+        
+        return average
+        
+        
+    }
+    
+    func toFeet(meters: Double) -> String
+    {
+        var feet = meters * 3.28084
+        let feetString = NSString(format: "%.2f", feet)
+        
+        return feetString as String
+    }
+    
+    
+    
+    
+    
+    
 }
