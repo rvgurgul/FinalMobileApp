@@ -57,7 +57,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
                     print("\(player.name)'s distance changed to:")
                     if let value = snap.value as? Double {
                         print(value)
-                        self.distances[snap.key] = value
+                        self.distances[player.name] = value
                     }
                 }
             })
@@ -157,10 +157,11 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         let player = players[indexPath.row]
         
         cell.textLabel?.text = player.name
-        cell.detailTextLabel?.text = "Unknown"
-        if true//player.role == 0
-        {
+        if player.role == 0 {
             cell.detailTextLabel?.text = "\(distances[player.name])ft"
+        }
+        else {
+            cell.detailTextLabel?.text = ""
         }
 
         return cell
