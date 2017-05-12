@@ -181,10 +181,9 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         }
         
         timesCalc.removeAll()
-        var feet = toFeet(meters: average)
+        let feet = toFeet(meters: average)
        // currentLobby.child("players").child(branchID).updateChildValues(["dist": feet])
         return average
-        
         
     }
     
@@ -204,20 +203,16 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         }
         
         timesAcc.removeAll()
-        var feet = toFeet(meters: average)
+        
+        let feet = toFeet(meters: average)
         currentLobby.child("players").child(branchID).updateChildValues(["dist": feet])
         
         return average
-        
-        
     }
     
-    func toFeet(meters: Double) -> String
+    func toFeet(meters: Double) -> Double
     {
-        var feet = meters * 3.28084
-        let feetString = NSString(format: "%.2f", feet)
-        
-        return feetString as String
+        return meters * 3.28084
     }
     
     
