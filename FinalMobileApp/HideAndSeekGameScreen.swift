@@ -19,11 +19,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     var lobby: Lobby?
     var currentLobby: FIRDatabaseReference
     {
-        if let branch = lobby!.name
-        {
-            return ref.child(branch)
-        }
-        return ref
+        return ref.child(lobby!.name)
     }
     
     var branchID: String!
@@ -47,17 +43,13 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
             return
         }
         
-        for player in players
-        {
-            let playerBranch = currentLobby.child("players").child(player.uuid)
-            playerBranch.observe(.childChanged, with:
+        let playersBranch = currentLobby.child("players")
+        for player in players {
+            playersBranch.child(player.uuid).observe(.childChanged, with:
             {   (snap) in
-                print("we in there")
-                if snap.key == "dist"
-                {
+                if snap.key == "dist" {
                     print("\(player.name)'s distance changed to:")
-                    if let value = snap.value as? Double
-                    {
+                    if let value = snap.value as? Double {
                         print(value)
                         self.distances[snap.key] = value
                     }
@@ -68,20 +60,13 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         self.beaconManager.delegate = self
         self.beaconManager.requestAlwaysAuthorization() //not sure if this needed here
 
-        let beaconRegion = CLBeaconRegion(
-            proximityUUID: UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!, identifier: "ranged region") // lil blue
+        let beaconRegion = CLBeaconRegion(proximityUUID: UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!, identifier: "ranged region") // lil blue
         
         self.beaconManager.startRangingBeacons(in: beaconRegion)
         
-        
         tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeStep), userInfo: nil, repeats: true)
         
-        
     }
-    
-    
-    
-    
     
     //This ain't working. Mr. Peh the timer man, fix it por favor.
     func timeStep()
@@ -142,20 +127,18 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return 10//players.count
+        return players.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "playerInfo", for: indexPath)
-        return cell
-        
         let player = players[indexPath.row]
         
         cell.textLabel?.text = player.name
         if player.role == 0
         {
-            cell.detailTextLabel?.text = "\(distances[player.name])m" //player's distance
+            cell.detailTextLabel?.text = "\(distances[player.name])ft"
         }
 
         return cell

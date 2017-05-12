@@ -33,11 +33,7 @@ class LobbyViewController: UITableViewController
     var lobby: Lobby?
     var currentLobby: FIRDatabaseReference
     {
-        if let branch = lobby!.name
-        {
-            return ref.child(branch)
-        }
-        return ref
+        return ref.child(lobby!.name)
     }
     
     let branchID = UUID().uuidString
@@ -56,7 +52,7 @@ class LobbyViewController: UITableViewController
         navigationItem.title = lobby?.name
         
         //Initialize Player's Branch with name, role, and ready state.
-        currentLobby.child("players").child(branchID).updateChildValues(["name": deviceName, "role": 0, "ready": false])
+        currentLobby.child("players").child(branchID).updateChildValues(["name": deviceName, "role": 0, "ready": false, "dist": 0])
         
         //Default to
         gameType = .HideAndBeac
@@ -131,15 +127,14 @@ class LobbyViewController: UITableViewController
         //Listening for game-beginning
         currentLobby.observe(.childChanged, with:
         {   (snap) in
-            if snap.key == "gameState"
-            {
-                print("GAME IS STARTING")
+            if snap.key == "gameState" {
                 self.goToView(withID: "newGameVC", handler:
                 {   (vc) in
                     if let nextVC = vc as? HideAndSeekGameScreen
                     {
                         nextVC.lobby = self.lobby
                         nextVC.branchID = self.branchID
+                        nextVC.players = self.players
                     }
                 })
             }

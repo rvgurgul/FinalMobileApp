@@ -11,40 +11,33 @@ import FirebaseDatabase
 
 class Lobby
 {
-    var name: String!
-    var host: String!
+    var name: String
+    var host: String
     var pass: String?
-    var gameState: Int! = 0
-    var numPlayers: Int!
-    
-    init(name: String, host: String, pass: String?)
-    {
-        self.name = name
-        self.host = host
-        self.pass = pass
-        gameState = 0
-        numPlayers = 0
-    }
+    var gameState: Int
+    var numPlayers: Int
+    var players: [Player]!
     
     init(name: String, dict: [String:Any])
     {
         self.name = name
+        self.host = ""
+        self.gameState = 0
+        self.numPlayers = 0
         
         if let players = dict["players"] as? [String:Any] {
-            numPlayers = players.count - 1 //exclude host element
+            self.numPlayers = players.count - 1 //exclude host element
             if let host = players["host"] as? String
             {
                 self.host = host
             }
         }
         
-        if let password = dict["password"] as? String, password != ""
-        {
+        if let password = dict["password"] as? String, password != "" {
             self.pass = password
         }
         
-        if let state = dict["gameState"] as? Int
-        {
+        if let state = dict["gameState"] as? Int {
             self.gameState = state
         }
     }
