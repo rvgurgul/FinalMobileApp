@@ -14,17 +14,15 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     var time = 300
     var tim: Timer!
     
-    
     let beaconManager = ESTBeaconManager()
     
+    var branchID: String!
+    var players: [Player]!
     var lobby: Lobby?
     var currentLobby: FIRDatabaseReference
     {
         return ref.child(lobby!.name)
     }
-    
-    var branchID: String!
-    var players: [Player]!
     
     var distances = [String: CLLocationAccuracy]()
     {
@@ -37,10 +35,9 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     var timesCalc = [Double]()
     var timesAcc = [Double]()
     
-    var timp = Timer()
-    var jim = Timer()
+    var timp: Timer!
+    var jim: Timer!
     
-   
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -53,6 +50,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         let playersBranch = currentLobby.child("players")
         for player in players {
+            self.distances[player.name] = 0
             playersBranch.child(player.uuid).observe(.childChanged, with:
             {   (snap) in
                 if snap.key == "dist" {
@@ -63,8 +61,6 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
                     }
                 }
             })
-            
-            
         }
         
         self.beaconManager.delegate = self
@@ -161,7 +157,8 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         let player = players[indexPath.row]
         
         cell.textLabel?.text = player.name
-        if player.role == 0
+        cell.detailTextLabel?.text = "Unknown"
+        if true//player.role == 0
         {
             cell.detailTextLabel?.text = "\(distances[player.name])ft"
         }
