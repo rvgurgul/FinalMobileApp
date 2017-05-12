@@ -101,15 +101,12 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         let number = beacons.first?.accuracy
         // let number = calcDis(thisOneBoi: thisOneBoi)  // distance
         
-        var calcdis = calcDis(thisOneBoi: thisOneBoi)
-        var givendis = beacons.first?.accuracy
+        let calcdis = calcDis(thisOneBoi: thisOneBoi)
+        let givendis = beacons.first?.accuracy
         
         print("add to array")
         timesCalc.append(calcdis)
         timesAcc.append(givendis!)
-        
-        
-        
         
         
         //PUSHES DISTANCE TO FIREBASE
@@ -141,11 +138,6 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         }
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int
-    {
-        return 1
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return players.count
@@ -158,7 +150,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         cell.textLabel?.text = player.name
         if player.role == 0 {
-            cell.detailTextLabel?.text = "\(distances[player.name])ft"
+            cell.detailTextLabel?.text = "\(distances[player.name]!)ft"
         }
         else {
             cell.detailTextLabel?.text = ""
