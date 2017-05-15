@@ -181,7 +181,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         cell.textLabel?.text = player.name
         if player.role == 0 {
-            cell.detailTextLabel?.text = "\(distances[player.name]!)ft"
+            cell.detailTextLabel?.text = "\(String(format: "%.1f",distances[player.name]!))ft"
         }
         else {
             cell.detailTextLabel?.text = ""
