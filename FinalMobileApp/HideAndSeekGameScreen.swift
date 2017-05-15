@@ -133,8 +133,6 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
             
         }
         
-        
-        
         print("add to array")
         timesCalc.append(calcdis)
         timesAcc.append(givendis!)

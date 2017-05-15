@@ -18,17 +18,6 @@ import Firebase
  Peter
  Nick
  
- -------
- iBeacon
- -------
- - = incomplete
- ~ = complete
- 
- -Beacons
-    - implement nearby beacon connection
- 
- -Firebase
-    - gameState branch that everyone observes for the start of the game.
  
  -Functionality
     - create another tableVC to serve as the game screen. (H = hider, S = seeker)
@@ -112,6 +101,9 @@ var beaconRange: CLBeaconRegion
     let min = UInt16(beaconMinor)
     return CLBeaconRegion(proximityUUID: uuid, major: maj, minor: min, identifier: "BEAC")
 }
+
+var allJoinedLobbies = [FIRDatabaseReference]()
+var myPlayerID = UUID().uuidString
 
 func cancelAction(withTitle title: String?) -> UIAlertAction
 {

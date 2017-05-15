@@ -18,6 +18,7 @@
 		3F4FC7C11E79A49700053969 /* FinalMobileAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7C01E79A49700053969 /* FinalMobileAppTests.swift */; };
 		3F4FC7CC1E79A49700053969 /* FinalMobileAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4FC7CB1E79A49700053969 /* FinalMobileAppUITests.swift */; };
 		3F598A2A1EA7AD18002553ED /* CustomClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F598A291EA7AD18002553ED /* CustomClasses.swift */; };
+		3F5BA5E91EC9FA84003891F7 /* TO-DO-LIST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5BA5E81EC9FA84003891F7 /* TO-DO-LIST.swift */; };
 		3FC5E19F1E9E7227008A5088 /* EstimoteSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E19E1E9E7227008A5088 /* EstimoteSDK.framework */; };
 		3FC5E1A11E9E734E008A5088 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E1A01E9E734E008A5088 /* CoreGraphics.framework */; };
 		3FC5E1A31E9E7359008A5088 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E1A21E9E7359008A5088 /* UIKit.framework */; };
@@ -70,6 +71,7 @@
 		3F4FC7CB1E79A49700053969 /* FinalMobileAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalMobileAppUITests.swift; sourceTree = "<group>"; };
 		3F4FC7CD1E79A49700053969 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F598A291EA7AD18002553ED /* CustomClasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomClasses.swift; sourceTree = "<group>"; };
+		3F5BA5E81EC9FA84003891F7 /* TO-DO-LIST.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TO-DO-LIST.swift"; sourceTree = "<group>"; };
 		3FC5E19E1E9E7227008A5088 /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EstimoteSDK.framework; path = "../iOS-SDK-master/EstimoteSDK/EstimoteSDK.framework"; sourceTree = "<group>"; };
 		3FC5E1A01E9E734E008A5088 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3FC5E1A21E9E7359008A5088 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -160,6 +162,7 @@
 		3F4FC7AA1E79A49700053969 /* FinalMobileApp */ = {
 			isa = PBXGroup;
 			children = (
+				3F5BA5E81EC9FA84003891F7 /* TO-DO-LIST.swift */,
 				3F4FC7AB1E79A49700053969 /* AppDelegate.swift */,
 				3FCBABA21E82E25D005D888C /* BeaconManager.swift */,
 				3FDDBB111E97B68D00001842 /* CreateLobbyFieldCell.swift */,
@@ -498,6 +501,7 @@
 			files = (
 				3FCBABA31E82E25D005D888C /* BeaconManager.swift in Sources */,
 				3FDDBB121E97B68D00001842 /* CreateLobbyFieldCell.swift in Sources */,
+				3F5BA5E91EC9FA84003891F7 /* TO-DO-LIST.swift in Sources */,
 				3FCBABA11E82CA1E005D888C /* HideAndSeekGameScreen.swift in Sources */,
 				3F4FC7AE1E79A49700053969 /* ViewController.swift in Sources */,
 				3F4221D91E815EA700464FEA /* GlobalUtility.swift in Sources */,

@@ -54,7 +54,7 @@ class LobbyViewController: UITableViewController
         //Initialize Player's Branch with name, role, and ready state.
         currentLobby.child("players").child(branchID).updateChildValues(["name": deviceName, "role": 0, "ready": false, "dist": 0])
         
-        //Default to
+        //Default to Hide and Beac
         gameType = .HideAndBeac
         settings = defaultSettingsFor(game: gameType)
         
