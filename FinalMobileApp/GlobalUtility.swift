@@ -43,11 +43,7 @@ import Firebase
  */
 
 let ESTIMOTE_PROXIMITY_UUID = UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!
-
 let lilBlue_PROXIMITY_UUID = UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!
-
-
-var beaconManager: BeaconManager!
 
 var ref: FIRDatabaseReference
 {
