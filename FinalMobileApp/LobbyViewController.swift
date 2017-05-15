@@ -167,12 +167,17 @@ class LobbyViewController: UITableViewController
     {
         let alert = UIAlertController(title: "Settings Menu", message: nil, preferredStyle: .actionSheet)
         
-        let rdyTxt = ready ? "Unready" : "Ready Up"
+        /*let rdyTxt = ready ? "Unready" : "Ready Up"
         alert.addAction(title: rdyTxt, style: .destructive, handler:
         {   _ in
             self.ready = !self.ready
             //do the readying up stuff here
-        })
+        })*/
+        
+        alert.addAction(UIAlertAction(title: "Start Game", style: .default, handler:
+        {   _ in
+            self.currentLobby.updateChildValues(["gameState": 1])
+        }))
         
         if lobby!.pass != nil {
             alert.addAction(UIAlertAction(title: "Show Password", style: .default, handler: passwordFlash))
