@@ -14,6 +14,8 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     var time = 300
     var tim: Timer!
     
+    var firsttime = true
+    
     let beaconManager = ESTBeaconManager()
     
     var branchID: String!
@@ -81,11 +83,13 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         self.beaconManager.delegate = self
 
-        let beaconRegion = CLBeaconRegion(proximityUUID: UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!, identifier: "ranged region") // lil blue
+        let beaconRegion = CLBeaconRegion(proximityUUID: lilBlue_PROXIMITY_UUID , identifier: "ranged region") // lil blue
         
         self.beaconManager.startRangingBeacons(in: beaconRegion)
         
         tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeStep), userInfo: nil, repeats: true)
+        
+        
         
         timp = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesCalc), userInfo: nil, repeats: true)
         jim = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesAcc), userInfo: nil, repeats: true)
@@ -121,6 +125,15 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         let calcdis = calcDis(thisOneBoi: thisOneBoi)
         let givendis = beacons.first?.accuracy
+        
+        if (firsttime)
+        {
+            firsttime = false
+            averageTimesAcc()
+            
+        }
+        
+        
         
         print("add to array")
         timesCalc.append(calcdis)
