@@ -40,6 +40,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         tabBar.delegate = self
         
+        self.navigationItem.title = "Join a Lobby"
+        self.navigationController?.navigationBar.barTintColor = UIColor.yellow
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+        //self.navigationController?.navigationBar.isTranslucent = true
+        
         if CLLocationManager.authorizationStatus() != .authorizedAlways {
             CLLocationManager().requestAlwaysAuthorization()
         }
@@ -53,6 +58,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tabBar.selectedItem = tabBar.items![0]
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "wifi"), style: .plain, target: self, action: #selector(connectBeacon))
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.black
    
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -82,11 +88,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if item.tag == 1 //Join
         {
             viewIsInJoinState = true
+            self.navigationItem.title = "Join a Lobby"
             grabLobbies()
         }
         else if item.tag == 2 //Make
         {
             viewIsInJoinState = false
+            self.navigationItem.title = "Create a Lobby"
         }
         tableView.reloadData()
     }
