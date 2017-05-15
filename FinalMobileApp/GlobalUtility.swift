@@ -181,6 +181,21 @@ extension Array
         let index = Int(arc4random_uniform(UInt32(self.count)))
         return self[index]
     }
+    
 }
 
+func sum(_ arr: [Double]) -> Double
+{
+    var temp = 0.0
+    for value in arr
+    {
+        temp += value
+    }
+    return temp
+}
+
+func average(_ arr: [Double]) -> Double
+{
+    return arr.count == 0 ? 0 : sum(arr) / Double(arr.count)
+}
 

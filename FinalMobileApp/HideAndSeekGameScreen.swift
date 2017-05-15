@@ -60,11 +60,26 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
                         self.distances[player.name] = value
                     }
                 }
+                else if snap.key == "role" {
+                    print("\(player.name)'s role changed to:")
+                    if let value = snap.value as? Int {
+                        print(value)
+                        //CHANGE PLAYER.ROLE TO VALUE
+                    }
+                }
             })
         }
         
+        if CLLocationManager.authorizationStatus() != .authorizedAlways {
+            CLLocationManager().requestAlwaysAuthorization()
+        }
+        else {
+            for _ in 0...10 {
+                print("already authorized")
+            }
+        }
+        
         self.beaconManager.delegate = self
-        self.beaconManager.requestAlwaysAuthorization() //not sure if this needed here
 
         let beaconRegion = CLBeaconRegion(proximityUUID: UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!, identifier: "ranged region") // lil blue
         
@@ -72,13 +87,16 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeStep), userInfo: nil, repeats: true)
         
-        timp = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(AveragetimesCalc), userInfo: nil, repeats: true)
-        jim = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(AveragetimesAcc), userInfo: nil, repeats: true)
-        
-        
+        timp = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesCalc), userInfo: nil, repeats: true)
+        jim = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesAcc), userInfo: nil, repeats: true)
     }
     
-    //This ain't working. Mr. Peh the timer man, fix it por favor.
+//    
+//
+//      ADD DEINIT TO STOP TIMERS AND OBSERVERS
+//    
+//    
+    
     func timeStep()
     {
         if time > 0{
@@ -98,8 +116,8 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     func beaconManager(_ manager: Any, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion)
     {
         let thisOneBoi = beacons.first!
-        let number = beacons.first?.accuracy
-        // let number = calcDis(thisOneBoi: thisOneBoi)  // distance
+        //let number = beacons.first?.accuracy
+        //let number = calcDis(thisOneBoi: thisOneBoi)
         
         let calcdis = calcDis(thisOneBoi: thisOneBoi)
         let givendis = beacons.first?.accuracy
@@ -107,11 +125,6 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         print("add to array")
         timesCalc.append(calcdis)
         timesAcc.append(givendis!)
-        
-        
-        //PUSHES DISTANCE TO FIREBASE
-        //(I'm assuming this would update the value every time it ranges a beacon, so maybe move this around so that it's not constantly updating so you can average it to get a better number.)
-      //  currentLobby.child("players").child(branchID).updateChildValues(["dist": number])
     }
     
     //calculate the distance
@@ -138,6 +151,11 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return players.count
@@ -159,58 +177,30 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         return cell
     }
     
-    func AveragetimesCalc() -> Double
+    func averageTimesCalc() -> Double
     {
-        var sum = 0.00
-        
-        for i in timesCalc
-        {
-            sum += i
-        }
-        var average = sum / Double(timesCalc.count)
-        if timesCalc.count == 0
-        {
-            average = 0
-        }
-        
+        let avg = average(timesCalc)
         timesCalc.removeAll()
-        let feet = toFeet(meters: average)
-       // currentLobby.child("players").child(branchID).updateChildValues(["dist": feet])
-        return average
         
+        let feet = toFeet(meters: avg)
+        //currentLobby.child("players").child(branchID).updateChildValues(["dist": feet])
+        
+        return feet
     }
     
-    func AveragetimesAcc() -> Double
+    func averageTimesAcc() -> Double
     {
-        var sum = 0.00
-        print("boi")
-        
-        for i in timesAcc
-        {
-            sum += i
-        }
-        var average = sum / Double(timesAcc.count)
-        if timesAcc.count == 0
-        {
-            average = 0
-        }
-        
+        let avg = average(timesAcc)
         timesAcc.removeAll()
         
-        let feet = toFeet(meters: average)
+        let feet = toFeet(meters: avg)
         currentLobby.child("players").child(branchID).updateChildValues(["dist": feet])
         
-        return average
+        return feet
     }
     
     func toFeet(meters: Double) -> Double
     {
         return meters * 3.28084
     }
-    
-    
-    
-    
-    
-    
 }

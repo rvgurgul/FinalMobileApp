@@ -112,7 +112,11 @@ class LobbyViewController: UITableViewController
             {
                 for i in 0..<self.players.count
                 {
-                    if self.players[i].uuid == snap.key
+                    if i >= self.players.count
+                    {
+                        for _ in 0...15 {print("oh no, very bad")}
+                    }
+                    else if self.players[i].uuid == snap.key
                     {
                         self.players.remove(at: i)
                         self.tableView.reloadData()
