@@ -13,6 +13,11 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
 {
     var time = 300
     var tim: Timer!
+    var timp: Timer!
+    var jim: Timer!
+    
+    var timesCalc = [Double]()
+    var timesAcc = [Double]()
     
     var firsttime = true
     
@@ -33,12 +38,6 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
             self.tableView.reloadData()
         }
     }
-    
-    var timesCalc = [Double]()
-    var timesAcc = [Double]()
-    
-    var timp: Timer!
-    var jim: Timer!
     
     override func viewDidLoad()
     {
@@ -182,7 +181,13 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         cell.textLabel?.text = player.name
         if player.role == 0 {
-            cell.detailTextLabel?.text = "\(String(format: "%.1f",distances[player.name]!))ft"
+            let dist = distances[player.name]!
+            if dist <= 0 {
+                cell.detailTextLabel?.text = "--ft"
+            }
+            else {
+                cell.detailTextLabel?.text = "\(String(format: "%.1f", dist))ft"
+            }
         }
         else {
             cell.detailTextLabel?.text = ""

@@ -25,7 +25,6 @@
 		3FC5E1A51E9E7368008A5088 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E1A41E9E7368008A5088 /* Foundation.framework */; };
 		3FC5E1A71E9E7376008A5088 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC5E1A61E9E7376008A5088 /* SystemConfiguration.framework */; };
 		3FCBABA11E82CA1E005D888C /* HideAndSeekGameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */; };
-		3FCBABA31E82E25D005D888C /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCBABA21E82E25D005D888C /* BeaconManager.swift */; };
 		3FD9ED4A1E9E751600342AD1 /* EstimoteSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FD9ED491E9E751600342AD1 /* EstimoteSDK.framework */; };
 		3FDDBB121E97B68D00001842 /* CreateLobbyFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDDBB111E97B68D00001842 /* CreateLobbyFieldCell.swift */; };
 		6B5ED46550C8CBEFA3999F5B /* Pods_FinalMobileAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779D3CF6EA8A07C3EF7224C4 /* Pods_FinalMobileAppUITests.framework */; };
@@ -78,7 +77,6 @@
 		3FC5E1A41E9E7368008A5088 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3FC5E1A61E9E7376008A5088 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HideAndSeekGameScreen.swift; sourceTree = "<group>"; };
-		3FCBABA21E82E25D005D888C /* BeaconManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconManager.swift; sourceTree = "<group>"; };
 		3FD9ED491E9E751600342AD1 /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EstimoteSDK.framework; sourceTree = "<group>"; };
 		3FDDBB111E97B68D00001842 /* CreateLobbyFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateLobbyFieldCell.swift; path = ../CreateLobbyFieldCell.swift; sourceTree = "<group>"; };
 		600FF7CB74B88AE3B79CC476 /* Pods-FinalMobileAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalMobileAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FinalMobileAppTests/Pods-FinalMobileAppTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -164,7 +162,6 @@
 			children = (
 				3F5BA5E81EC9FA84003891F7 /* TO-DO-LIST.swift */,
 				3F4FC7AB1E79A49700053969 /* AppDelegate.swift */,
-				3FCBABA21E82E25D005D888C /* BeaconManager.swift */,
 				3FDDBB111E97B68D00001842 /* CreateLobbyFieldCell.swift */,
 				3F4221D81E815EA700464FEA /* GlobalUtility.swift */,
 				3FCBABA01E82CA1E005D888C /* HideAndSeekGameScreen.swift */,
@@ -499,7 +496,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FCBABA31E82E25D005D888C /* BeaconManager.swift in Sources */,
 				3FDDBB121E97B68D00001842 /* CreateLobbyFieldCell.swift in Sources */,
 				3F5BA5E91EC9FA84003891F7 /* TO-DO-LIST.swift in Sources */,
 				3FCBABA11E82CA1E005D888C /* HideAndSeekGameScreen.swift in Sources */,
