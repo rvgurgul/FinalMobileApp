@@ -41,9 +41,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tabBar.delegate = self
         
         self.navigationItem.title = "Join a Lobby"
-        self.navigationController?.navigationBar.barTintColor = UIColor.yellow
-        self.navigationController?.navigationBar.tintColor = UIColor.black
-        //self.navigationController?.navigationBar.isTranslucent = true
+        //self.navigationController?.navigationBar.barTintColor = UIColor.yellow
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
+        
         
         if CLLocationManager.authorizationStatus() != .authorizedAlways {
             CLLocationManager().requestAlwaysAuthorization()
@@ -57,8 +57,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         grabLobbies()
         
         tabBar.selectedItem = tabBar.items![0]
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "wifi"), style: .plain, target: self, action: #selector(connectBeacon))
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.black
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGray
    
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
