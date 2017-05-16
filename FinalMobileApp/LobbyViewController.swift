@@ -26,7 +26,7 @@ class LobbyViewController: UITableViewController
     {
         didSet
         {
-            currentLobby.child("players").child(branchID).updateChildValues(["ready": ready])
+            currentLobby.child("players").child(myPlayerID).updateChildValues(["ready": ready])
         }
     }
     
@@ -35,8 +35,6 @@ class LobbyViewController: UITableViewController
     {
         return ref.child(lobby!.name)
     }
-    
-    let branchID = UUID().uuidString
     
     override func viewDidLoad()
     {
@@ -52,7 +50,7 @@ class LobbyViewController: UITableViewController
         navigationItem.title = lobby?.name
         
         //Initialize Player's Branch with name, role, and ready state.
-        currentLobby.child("players").child(branchID).updateChildValues(["name": deviceName, "role": 0, "ready": false, "dist": 0])
+        currentLobby.child("players").child(myPlayerID).updateChildValues(["name": deviceName, "role": 0, "ready": false, "dist": 0])
         
         //Default to Hide and Beac
         gameType = .HideAndBeac
@@ -80,7 +78,7 @@ class LobbyViewController: UITableViewController
             if let value = snap.value as? [String:Any]
             {
                 let uuid = snap.key
-                if self.branchID != uuid //don't include the host themself
+                if myPlayerID != uuid //don't include the host themself
                 {
                     let name = value["name"] as! String
                     let role = value["role"] as! Int
@@ -98,7 +96,7 @@ class LobbyViewController: UITableViewController
         currentLobby.child("players").observe(.childRemoved, with:
         {   (snap) in
             print("Removed")
-            if self.branchID == snap.key //player has been kicked, deal with them
+            if myPlayerID == snap.key //player has been kicked, deal with them
             {
                 let kickedAlert = UIAlertController(title: "You've been kicked!", message: nil, preferredStyle: .alert)
                 kickedAlert.addAction(title: "Dismiss", style: .cancel, handler:
@@ -137,7 +135,6 @@ class LobbyViewController: UITableViewController
                     if let nextVC = vc as? HideAndSeekGameScreen
                     {
                         nextVC.lobby = self.lobby
-                        nextVC.branchID = self.branchID
                         nextVC.players = self.players
                     }
                 })
@@ -147,7 +144,8 @@ class LobbyViewController: UITableViewController
     
     deinit //viewDidUnload()
     {
-        currentLobby.child("players").child(branchID).removeValue()
+        print("deinitializing")
+        currentLobby.child("players").child(myPlayerID).removeValue()
         currentLobby.child("players").observeSingleEvent(of: .value, with:
         {   (snap) in
             if let value = snap.value as? [String: Any]

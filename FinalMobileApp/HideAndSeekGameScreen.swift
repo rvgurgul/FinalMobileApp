@@ -16,9 +16,9 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     
     var firsttime = true
     
-    let beaconManager = ESTBeaconManager()
+    var beaconManager = ESTBeaconManager()
+    var beaconRegion: CLBeaconRegion!
     
-    var branchID: String!
     var players: [Player]!
     var lobby: Lobby?
     var currentLobby: FIRDatabaseReference
@@ -44,7 +44,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     {
         super.viewDidLoad()
         
-        guard lobby != nil && branchID != nil && players != nil else
+        guard lobby != nil && players != nil else
         {
             self.dismiss(animated: true, completion: nil)
             return
@@ -81,25 +81,29 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
             }
         }
         
-        self.beaconManager.delegate = self
-
-        let beaconRegion = CLBeaconRegion(proximityUUID: lilBlue_PROXIMITY_UUID , identifier: "ranged region") // lil blue
+        beaconRegion = CLBeaconRegion(proximityUUID: lilBlue_PROXIMITY_UUID , identifier: "ranged region")
         
+        self.beaconManager.delegate = self
         self.beaconManager.startRangingBeacons(in: beaconRegion)
         
         tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeStep), userInfo: nil, repeats: true)
         
-        
-        
         timp = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesCalc), userInfo: nil, repeats: true)
+        
         jim = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesAcc), userInfo: nil, repeats: true)
+        
+        self.navigationItem.setHidesBackButton(true, animated: false)
     }
     
-//    
-//
-//      ADD DEINIT TO STOP TIMERS AND OBSERVERS
-//    
-//    
+    deinit
+    {
+        currentLobby.removeAllObservers()
+        tim.invalidate()
+        timp.invalidate()
+        jim.invalidate()
+        beaconManager.stopRangingBeaconsInAllRegions()
+        print("deinitializing")
+    }
     
     func timeStep()
     {
@@ -130,7 +134,6 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         {
             firsttime = false
             averageTimesAcc()
-            
         }
         
         print("add to array")
@@ -205,7 +208,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         timesAcc.removeAll()
         
         let feet = toFeet(meters: avg)
-        currentLobby.child("players").child(branchID).updateChildValues(["dist": feet])
+        currentLobby.child("players").child(myPlayerID).updateChildValues(["dist": feet])
         
         return feet
     }
