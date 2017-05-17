@@ -125,6 +125,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             //[String](lobbies.keys)[indexPath.row]
             cell.detailTextLabel?.text = lobby.host
             //[String](lobbies.values)[indexPath.row]
+            
+            /*
+             
+             NNNNNNNN        NNNNNNNN     IIIIIIIIII             CCCCCCCCCCCCC     KKKKKKKKK    KKKKKKK
+             N:::::::N       N::::::N     I::::::::I          CCC::::::::::::C     K:::::::K    K:::::K
+             N::::::::N      N::::::N     I::::::::I        CC:::::::::::::::C     K:::::::K    K:::::K
+             N:::::::::N     N::::::N     II::::::II       C:::::CCCCCCCC::::C     K:::::::K   K::::::K
+             N::::::::::N    N::::::N       I::::I        C:::::C       CCCCCC     KK::::::K  K:::::KKK
+             N:::::::::::N   N::::::N       I::::I       C:::::C                     K:::::K K:::::K
+             N:::::::N::::N  N::::::N       I::::I       C:::::C                     K::::::K:::::K
+             N::::::N N::::N N::::::N       I::::I       C:::::C                     K:::::::::::K
+             N::::::N  N::::N:::::::N       I::::I       C:::::C                     K:::::::::::K
+             N::::::N   N:::::::::::N       I::::I       C:::::C                     K::::::K:::::K
+             N::::::N    N::::::::::N       I::::I       C:::::C                     K:::::K K:::::K
+             N::::::N     N:::::::::N       I::::I        C:::::C       CCCCCC     KK::::::K  K:::::KKK
+             N::::::N      N::::::::N     II::::::II       C:::::CCCCCCCC::::C     K:::::::K   K::::::K
+             N::::::N       N:::::::N     I::::::::I        CC:::::::::::::::C     K:::::::K    K:::::K
+             N::::::N        N::::::N     I::::::::I          CCC::::::::::::C     K:::::::K    K:::::K
+             NNNNNNNN         NNNNNNN     IIIIIIIIII             CCCCCCCCCCCCC     KKKKKKKKK    KKKKKKK
+             
+             ... - --- .--.    .--. .-.. .- -.-- .. -. --.    ... -- .- ... ....    ..-    .... ---
+             
+             -.-- --- ..-    -.-. .- -.    -.-. .... .- -. --. .    - .... .    ... . .-.. . -.-. - . -..    -.-. --- .-.. --- .-.    --- ..-.    - .... .    -.-. . .-.. .-.. ...    .. ..-.    -.-- --- ..-    .-- .- -. -    .-- .. - ....    -.-. . .-.. .-.. .-.-.- ... . .-.. . -.-. - . -.. -... .- -.-. -.- --. .-. --- ..- -. -.. ...- .. . .-- ..--.. .-.-.- -... .- -.-. -.- --. .-. --- ..- -. -.. -.-. --- .-.. --- .-.  .-.-.- .-- .... .. - .
+             
+             */
+            
             return cell
         }
         else
@@ -163,6 +189,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
+        tableView.deselectRow(at: indexPath, animated: true)
         if viewIsInJoinState
         {
             let lobby = lobbies[indexPath.row]
