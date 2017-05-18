@@ -67,6 +67,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.addSubview(refreshControl)
     }
     
+    //HANDLES REMOVING LINGERING PLAYER BRANCHES
     override func viewDidAppear(_ animated: Bool)
     {
         if let dict = saved.object(forKey: "joinedLobbies") as? [String: [String]]
@@ -76,6 +77,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 for lobby in pair.value
                 {
                     ref.child(lobby).child("players").child(pair.key).removeValue()
+                    ref.child(lobby).child("players").observeSingleEvent(of: .value, with:
+                    {   (snap) in
+                        if "\(snap.value!)" == "<null>"
+                        {
+                            ref.child(lobby).removeValue()
+                        }
+                    })
                 }
             }
             saved.removeObject(forKey: "joinedLobbies")
