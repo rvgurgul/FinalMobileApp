@@ -193,6 +193,8 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
             cell.detailTextLabel?.text = ""
         }
 
+        cell.selectedBackgroundView?.backgroundColor = .yellow
+        
         return cell
     }
     

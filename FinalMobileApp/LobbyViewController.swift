@@ -140,6 +140,8 @@ class LobbyViewController: UITableViewController
                 })
             }
         })
+        
+        allJoinedLobbies.append(currentLobby)
     }
     
     deinit //viewDidUnload()
