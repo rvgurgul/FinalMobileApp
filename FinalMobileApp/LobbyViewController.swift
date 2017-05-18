@@ -9,14 +9,8 @@
 import UIKit
 import Firebase
 
-enum GameType: String
-{
-    case HideAndBeac = "hide_and_seek"
-}
-
 class LobbyViewController: UITableViewController
 {
-    var gameType: GameType!
     var settings: [String:Int]!
     
     var players = [Player]()
@@ -51,8 +45,11 @@ class LobbyViewController: UITableViewController
             return
         }
         
+        //Saves the lobby name to remove it later if you crash/exit the app
+        joinLobby(lobby!.name)
+        
         //Set the top bar to say the lobby's name.
-        navigationItem.title = lobby?.name
+        navigationItem.title = lobby!.name
         
         //Initialize Player's Branch with name, role, and ready state.
         currentLobby.child("players").child(myPlayerID).updateChildValues(["name": deviceName, "role": 0, "ready": false, "dist": 0])
@@ -141,8 +138,6 @@ class LobbyViewController: UITableViewController
                 })
             }
         })
-        
-        joinLobby(lobby!.name)
     }
     
     func settingsButton()
