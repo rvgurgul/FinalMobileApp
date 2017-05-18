@@ -145,24 +145,6 @@ class LobbyViewController: UITableViewController
         joinLobby(lobby!.name)
     }
     
-    deinit //viewDidUnload()
-    {
-        print("deinitializing")
-        currentLobby.child("players").observeSingleEvent(of: .value, with:
-        {   (snap) in
-            if let value = snap.value as? [String: Any]
-            {
-                if value.count == 1 //only "host" remains
-                {
-                    //goes up 1 level and destroys the lobby.
-                    snap.ref.parent!.removeValue()
-                }
-            }
-        })
-        
-        currentLobby.child("players").removeAllObservers()
-    }
-    
     func settingsButton()
     {
         let alert = UIAlertController(title: "Settings Menu", message: nil, preferredStyle: .actionSheet)
