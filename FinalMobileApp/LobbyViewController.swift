@@ -72,7 +72,6 @@ class LobbyViewController: UITableViewController
         //Listening for player joining
         currentLobby.child("players").observe(.childAdded, with:
         {   (snap) in
-            print("Added")
             if let value = snap.value as? [String:Any]
             {
                 let uuid = snap.key
@@ -93,7 +92,6 @@ class LobbyViewController: UITableViewController
         //Listening for player leaving
         currentLobby.child("players").observe(.childRemoved, with:
         {   (snap) in
-            print("Removed")
             if myPlayerID == snap.key //player has been kicked, deal with them
             {
                 let kickedAlert = UIAlertController(title: "You've been kicked!", message: nil, preferredStyle: .alert)

@@ -16,6 +16,19 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     var timp: Timer!
     var jim: Timer!
     
+    var distancesToAverage = [Double]()
+    {
+        didSet
+        {
+            if distancesToAverage.count == 10
+            {
+                let avg = toFeet(meters: average(distancesToAverage))
+                distancesToAverage.removeAll()
+                currentLobby.child("players").child(myPlayerID).updateChildValues(["dist": avg])
+            }
+        }
+    }
+    
     var timesCalc = [Double]()
     var timesAcc = [Double]()
     
@@ -122,22 +135,26 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     //finds beacons, array of beacons with that uuid is beacons, this func updates every 1 second
     func beaconManager(_ manager: Any, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion)
     {
-        let thisOneBoi = beacons.first!
+        //let thisOneBoi = beacons.first!
         //let number = beacons.first?.accuracy
         //let number = calcDis(thisOneBoi: thisOneBoi)
         
-        let calcdis = calcDis(thisOneBoi: thisOneBoi)
-        let givendis = beacons.first?.accuracy
+        //let calcdis = calcDis(thisOneBoi: thisOneBoi)
         
-        if (firsttime)
+        if let givendis = beacons.first?.accuracy
         {
-            firsttime = false
-            averageTimesAcc()
+            distancesToAverage.append(givendis)
         }
         
-        print("add to array")
-        timesCalc.append(calcdis)
-        timesAcc.append(givendis!)
+//        if (firsttime)
+//        {
+//            firsttime = false
+//            averageTimesAcc()
+//        }
+        
+//        print("add to array")
+//        timesCalc.append(calcdis)
+//        timesAcc.append(givendis!)
     }
     
     //calculate the distance
@@ -215,7 +232,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         timesAcc.removeAll()
         
         let feet = toFeet(meters: avg)
-        currentLobby.child("players").child(myPlayerID).updateChildValues(["dist": feet])
+        //currentLobby.child("players").child(myPlayerID).updateChildValues(["dist": feet])
         
         return feet
     }
