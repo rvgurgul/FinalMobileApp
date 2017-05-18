@@ -36,9 +36,10 @@
  
  - readying up
  
+ (RICHIE)
  + fix the firebase connection when you leave
  
- + constrain game settings (initial: 20-60, game: 60-900)
+ - constrain game settings (initial: 20-60, game: 60-900)
  
  
  
@@ -49,9 +50,7 @@
  
  HideAndSeekGameScreen
  
- + remove back button (maybe we should present this modally)
- 
- + use the settings chosen in the lobby for the timers
+ - use the settings chosen in the lobby for the timers
  
  + initial countdown
     tells hiders to run and find a spot to hide

@@ -26,11 +26,12 @@ class Lobby
         self.numPlayers = 0
         
         if let players = dict["players"] as? [String:Any] {
-            self.numPlayers = players.count - 1 //exclude host element
-            if let host = players["host"] as? String
-            {
-                self.host = host
-            }
+            self.numPlayers = players.count
+        }
+        
+        if let host = dict["host"] as? String
+        {
+            self.host = host
         }
         
         if let password = dict["password"] as? String, password != "" {

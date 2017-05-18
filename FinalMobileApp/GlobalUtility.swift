@@ -49,61 +49,20 @@ var deviceName: String
     return UIDevice.current.name
 }
 
-var beaconUUID: String
-{
-    set (value)
-    {
-        saved.set(value, forKey: "beaconUUID")
-    }
-    get
-    {
-        if let uuid = saved.value(forKey: "beaconUUID") as? String{
-            return uuid
-        }
-        return ESTIMOTE_PROXIMITY_UUID.uuidString
-    }
-}
-
-var beaconMajor: Int 
-{
-    set (value)
-    {
-        saved.set(value, forKey: "beaconMajor")
-    }
-    get
-    {
-        if let major = saved.value(forKey: "beaconMajor") as? Int {
-            return major
-        }
-        return 0
-    }
-}
-
-var beaconMinor: Int
-{
-    set (value)
-    {
-        saved.set(value, forKey: "beaconMinor")
-    }
-    get
-    {
-        if let minor = saved.value(forKey: "beaconMinor") as? Int {
-            return minor
-        }
-        return 0
-    }
-}
-
-var beaconRange: CLBeaconRegion
-{
-    let uuid = UUID(uuidString: beaconUUID)!
-    let maj = UInt16(beaconMajor)
-    let min = UInt16(beaconMinor)
-    return CLBeaconRegion(proximityUUID: uuid, major: maj, minor: min, identifier: "BEAC")
-}
-
-var allJoinedLobbies = [FIRDatabaseReference]()
 var myPlayerID = UUID().uuidString
+
+func joinLobby(_ name: String)
+{
+    if var dict = saved.object(forKey: "joinedLobbies") as? [String:[String]]
+    {
+        dict[myPlayerID]!.append(name)
+        saved.set(dict, forKey: "joinedLobbies")
+    }
+    else
+    {
+        saved.set([myPlayerID: [name]], forKey: "joinedLobbies")
+    }
+}
 
 func cancelAction(withTitle title: String?) -> UIAlertAction
 {

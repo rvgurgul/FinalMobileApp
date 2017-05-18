@@ -36,6 +36,11 @@ class LobbyViewController: UITableViewController
         return ref.child(lobby!.name)
     }
     
+    var defaultSettings: [String:Int]
+    {
+        return ["Countdown": 30, "Round Timer": 300]
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -52,17 +57,13 @@ class LobbyViewController: UITableViewController
         //Initialize Player's Branch with name, role, and ready state.
         currentLobby.child("players").child(myPlayerID).updateChildValues(["name": deviceName, "role": 0, "ready": false, "dist": 0])
         
-        //Default to Hide and Beac
-        gameType = .HideAndBeac
-        settings = defaultSettingsFor(game: gameType)
-        
         //Specifics based on whether the player is host or not.
         if hosting
         {
             currentLobby.updateChildValues(["gameState": 0])
-            currentLobby.child("settings").updateChildValues(settings)
-            currentLobby.child("players").updateChildValues(["host": deviceName])
-            currentLobby.child("beacon").updateChildValues(["uuid": beaconUUID, "major": beaconMajor, "minor": beaconMinor])
+            currentLobby.child("settings").updateChildValues(defaultSettings)
+            currentLobby.updateChildValues(["host": deviceName])
+            //currentLobby.child("beacon").updateChildValues(["uuid": beaconUUID, "major": beaconMajor, "minor": beaconMinor])
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(settingsButton))
         }
@@ -141,13 +142,12 @@ class LobbyViewController: UITableViewController
             }
         })
         
-        allJoinedLobbies.append(currentLobby)
+        joinLobby(lobby!.name)
     }
     
     deinit //viewDidUnload()
     {
         print("deinitializing")
-        currentLobby.child("players").child(myPlayerID).removeValue()
         currentLobby.child("players").observeSingleEvent(of: .value, with:
         {   (snap) in
             if let value = snap.value as? [String: Any]
@@ -199,14 +199,6 @@ class LobbyViewController: UITableViewController
         {
             sleep(3)
             alert.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    func defaultSettingsFor(game: GameType) -> [String:Int]
-    {
-        switch game
-        {
-        case .HideAndBeac: return ["Countdown": 30, "Round Timer": 300]
         }
     }
     

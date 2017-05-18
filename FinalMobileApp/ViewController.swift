@@ -67,6 +67,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.addSubview(refreshControl)
     }
     
+    override func viewDidAppear(_ animated: Bool)
+    {
+        if let dict = saved.object(forKey: "joinedLobbies") as? [String: [String]]
+        {
+            for pair in dict
+            {
+                for lobby in pair.value
+                {
+                    ref.child(lobby).child("players").child(pair.key).removeValue()
+                }
+            }
+            saved.removeObject(forKey: "joinedLobbies")
+        }
+    }
+    
     func grabLobbies()
     {
         lobbies.removeAll()
