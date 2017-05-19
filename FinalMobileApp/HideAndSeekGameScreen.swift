@@ -11,10 +11,18 @@ import FirebaseDatabase
 
 class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
 {
-    var time = 300
+    var gameTime = 300
+    var preTime = 30
     var tim: Timer!
-    var timp: Timer!
+    
+    /*var timp: Timer!
     var jim: Timer!
+    
+    var timesCalc = [Double]()
+    var timesAcc = [Double]()
+    
+    var firsttime = true
+    */
     
     var distancesToAverage = [Double]()
     {
@@ -22,23 +30,18 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         {
             if distancesToAverage.count == 10
             {
-                let avg = toFeet(meters: average(distancesToAverage))
+                let avg = toFeet(fromMeters: average(distancesToAverage))
                 distancesToAverage.removeAll()
                 currentLobby.child("players").child(myPlayerID).updateChildValues(["dist": avg])
             }
         }
     }
-    
-    var timesCalc = [Double]()
-    var timesAcc = [Double]()
-    
-    var firsttime = true
-    
     var beaconManager = ESTBeaconManager()
     var beaconRegion: CLBeaconRegion!
     
     var players: [Player]!
     var lobby: Lobby?
+    
     var currentLobby: FIRDatabaseReference
     {
         return ref.child(lobby!.name)
@@ -62,27 +65,38 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
             return
         }
         
+        currentLobby.child("settings").observe(.value, with:
+        {   (snap) in
+            if let dict = snap.value as? [String: Int]
+            {
+                self.preTime = dict["Countdown"]!
+                print(self.preTime)
+                
+                self.gameTime = dict["Round Timer"]!
+                print(self.gameTime)
+            }
+        })
+        
         let playersBranch = currentLobby.child("players")
-        for player in players {
+        for player in players
+        {
             self.distances[player.name] = 0
             playersBranch.child(player.uuid).observe(.childChanged, with:
             {   (snap) in
                 if snap.key == "dist" {
-                    print("\(player.name)'s distance changed to:")
                     if let value = snap.value as? Double {
-                        print(value)
                         self.distances[player.name] = value
                     }
                 }
                 else if snap.key == "role" {
-                    print("\(player.name)'s role changed to:")
                     if let value = snap.value as? Int {
-                        print(value)
-                        //CHANGE PLAYER.ROLE TO VALUE
+                        player.role = value
                     }
                 }
             })
         }
+        
+        self.navigationItem.setHidesBackButton(true, animated: false)
         
         if CLLocationManager.authorizationStatus() != .authorizedAlways {
             CLLocationManager().requestAlwaysAuthorization()
@@ -95,39 +109,38 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         beaconRegion = CLBeaconRegion(proximityUUID: lilBlue_PROXIMITY_UUID , identifier: "ranged region")
         
-        self.beaconManager.delegate = self
-        self.beaconManager.startRangingBeacons(in: beaconRegion)
+        beaconManager.delegate = self
+        beaconManager.startRangingBeacons(in: beaconRegion)
         
         tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeStep), userInfo: nil, repeats: true)
         
-        timp = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesCalc), userInfo: nil, repeats: true)
+        /*timp = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesCalc), userInfo: nil, repeats: true)
         
-        jim = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesAcc), userInfo: nil, repeats: true)
-        
-        self.navigationItem.setHidesBackButton(true, animated: false)
+        jim = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesAcc), userInfo: nil, repeats: true)*/
     }
     
     deinit
     {
         currentLobby.removeAllObservers()
         tim.invalidate()
-        timp.invalidate()
-        jim.invalidate()
+        //timp.invalidate()
+        //jim.invalidate()
         beaconManager.stopRangingBeaconsInAllRegions()
         print("deinitializing")
     }
     
     func timeStep()
     {
-        if time > 0{
-            time -= 1
+        if gameTime > 0{
+            gameTime -= 1
             
-            let minutes = "\(time / 60)"
-            let seconds = "\(time % 60)".characters.count == 1 ? "0\(time % 60)" : "\(time % 60)"
+            let minutes = "\(gameTime / 60)"
+            let seconds = "\(gameTime % 60)".characters.count == 1 ? "0\(gameTime % 60)" : "\(gameTime % 60)"
             
             navigationItem.title = "\(minutes):\(seconds)"
         }
         else{
+            print("job's done")
             tim.invalidate()
         }
     }
@@ -135,16 +148,16 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     //finds beacons, array of beacons with that uuid is beacons, this func updates every 1 second
     func beaconManager(_ manager: Any, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion)
     {
+        if let beac = beacons.first
+        {
+            let feet = toFeet(fromMeters: beac.accuracy)
+            distancesToAverage.append(feet)
+        }
         //let thisOneBoi = beacons.first!
         //let number = beacons.first?.accuracy
         //let number = calcDis(thisOneBoi: thisOneBoi)
         
         //let calcdis = calcDis(thisOneBoi: thisOneBoi)
-        
-        if let givendis = beacons.first?.accuracy
-        {
-            distancesToAverage.append(givendis)
-        }
         
 //        if (firsttime)
 //        {
@@ -209,13 +222,11 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         else {
             cell.detailTextLabel?.text = ""
         }
-
-        cell.selectedBackgroundView?.backgroundColor = .yellow
         
         return cell
     }
     
-    func averageTimesCalc() -> Double
+    /*func averageTimesCalc() -> Double
     {
         let avg = average(timesCalc)
         timesCalc.removeAll()
@@ -235,9 +246,9 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         //currentLobby.child("players").child(myPlayerID).updateChildValues(["dist": feet])
         
         return feet
-    }
+    }*/
     
-    func toFeet(meters: Double) -> Double
+    func toFeet(fromMeters meters: Double) -> Double
     {
         return meters * 3.28084
     }

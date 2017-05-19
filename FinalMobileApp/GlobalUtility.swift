@@ -150,3 +150,22 @@ func average(_ arr: [Double]) -> Double
     return arr.count == 0 ? 0 : sum(arr) / Double(arr.count)
 }
 
+extension UIViewController
+{
+    func goToView(withID identifier: String, handler: ((UIViewController) -> Void)?)
+    {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: identifier)
+        {
+            if handler != nil {handler!(vc)}
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func ezAlert(title: String?, message: String?, buttonTitle: String)
+    {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(cancelAction(withTitle: buttonTitle))
+        present(alert, animated: true, completion: nil)
+    }
+}
+

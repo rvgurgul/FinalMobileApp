@@ -10,7 +10,6 @@
  
  Storyboard
  
- + prettify
  
  
  
@@ -35,11 +34,7 @@
  LobbyViewController
  
  - readying up
- 
- (RICHIE)
- + fix the firebase connection when you leave
- 
- - constrain game settings (initial: 20-60, game: 60-900)
+
  
  
  

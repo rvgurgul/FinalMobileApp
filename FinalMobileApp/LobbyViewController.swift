@@ -11,8 +11,6 @@ import Firebase
 
 class LobbyViewController: UITableViewController
 {
-    var settings: [String:Int]!
-    
     var players = [Player]()
     
     var hosting = false
@@ -30,10 +28,7 @@ class LobbyViewController: UITableViewController
         return ref.child(lobby!.name)
     }
     
-    var defaultSettings: [String:Int]
-    {
-        return ["Countdown": 30, "Round Timer": 300]
-    }
+    var settings = ["preTime": 30, "gameTime": 300]
     
     override func viewDidLoad()
     {
@@ -58,15 +53,11 @@ class LobbyViewController: UITableViewController
         if hosting
         {
             currentLobby.updateChildValues(["gameState": 0])
-            currentLobby.child("settings").updateChildValues(defaultSettings)
+            currentLobby.child("settings").updateChildValues(settings)
             currentLobby.updateChildValues(["host": deviceName])
             //currentLobby.child("beacon").updateChildValues(["uuid": beaconUUID, "major": beaconMajor, "minor": beaconMinor])
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(settingsButton))
-        }
-        else
-        {
-            //set rightbaritem to a ready up button.
         }
         
         //Listening for player joining
@@ -158,12 +149,64 @@ class LobbyViewController: UITableViewController
             alert.addAction(UIAlertAction(title: "Show Password", style: .default, handler: passwordFlash))
         }
         
-        for setting in settings {
-            alert.addAction(SettingsAlertAction(setting: setting))
-        }
+        alert.addAction(title: "Change Countdown (\(settings["preTime"]!))", style: .default, handler: preTimeHandler)
+        
+        alert.addAction(title: "Change Game Time (\(settings["gameTime"]!))", style: .default, handler: gameTimeHandler)
         
         alert.addAction(cancelAction(withTitle: "Cancel"))
         
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func preTimeHandler(_: UIAlertAction)
+    {
+        let constraints = 10...60
+        let alert = UIAlertController(title: "Change Countdown", message: nil, preferredStyle: .alert)
+        alert.addTextField
+        {   (field) in
+            field.placeholder = "(default: 30)"
+            field.text = "\(self.settings["preTime"]!)"
+        }
+        alert.addAction(title: "Done", style: .default)
+        {   _ in
+            if let input = alert.textFields?[0].text {
+                if let value = Int(input) {
+                    if constraints.contains(value) {
+                        self.currentLobby.child("settings").updateChildValues(["preTime": value])
+                        self.settings["preTime"] = value
+                        self.ezAlert(title: "Countdown updated to \(value)", message: nil, buttonTitle: "OK")
+                        return
+                    }
+                }
+            }
+            self.ezAlert(title: "Bad Input", message: "Countdown must be a number between 10 and 60.", buttonTitle: "OK")
+        }
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func gameTimeHandler(_: UIAlertAction)
+    {
+        let constraints = 60...600
+        let alert = UIAlertController(title: "Change Game Time", message: nil, preferredStyle: .alert)
+        alert.addTextField
+        {   (field) in
+            field.placeholder = "(default: 300)"
+            field.text = "\(self.settings["gameTime"]!)"
+        }
+        alert.addAction(title: "Done", style: .default)
+        {   _ in
+            if let input = alert.textFields?[0].text {
+                if let value = Int(input) {
+                    if constraints.contains(value) {
+                        self.currentLobby.child("settings").updateChildValues(["gameTime": value])
+                        self.settings["gameTime"] = value
+                        self.ezAlert(title: "Game time updated to \(value)", message: nil, buttonTitle: "OK")
+                        return
+                    }
+                }
+            }
+            self.ezAlert(title: "Bad Input", message: "Game time must be a number between 60 and 600.", buttonTitle: "OK")
+        }
         present(alert, animated: true, completion: nil)
     }
     
@@ -218,35 +261,6 @@ class LobbyViewController: UITableViewController
         cell.textLabel?.text = player.name //"Device Name"
         cell.detailTextLabel?.text = player.uuid //"UUID"
         return cell
-    }
-    
-    func SettingsAlertAction(setting: (String, Int)) -> UIAlertAction
-    {
-        return UIAlertAction(title: "\(setting.0): \(setting.1)", style: .default, handler: settingHandler)
-    }
-    
-    func settingHandler(action: UIAlertAction)
-    {
-        if let parts = action.title?.components(separatedBy: ": ")
-        {
-            let alert = UIAlertController(title: "Change \(parts[0])", message: nil, preferredStyle: .alert)
-            alert.addTextField
-            {   (field) in
-                field.placeholder = parts[1]
-            }
-            alert.addAction(UIAlertAction(title: "Done", style: .default, handler:
-            {   _ in
-                if let input = alert.textFields?[0].text! {
-                    if let output = Int(input)
-                    {
-                        self.currentLobby.child("settings").updateChildValues([parts[0]: output])
-                        self.settings[parts[0]] = output
-                    }
-                }
-            }))
-            alert.addAction(cancelAction(withTitle: "Cancel"))
-            present(alert, animated: true, completion: nil)
-        }
     }
     
     func beaconConfiguration(beaconBranch ref: FIRDatabaseReference)
