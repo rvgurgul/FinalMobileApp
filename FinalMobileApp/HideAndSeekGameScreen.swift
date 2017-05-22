@@ -11,8 +11,9 @@ import FirebaseDatabase
 
 class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
 {
-    var gameTime = 300
     var preTime = 30
+    var gameTime = 300
+    
     var tim: Timer!
     
     /*var timp: Timer!
@@ -36,6 +37,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
             }
         }
     }
+    
     var beaconManager = ESTBeaconManager()
     var beaconRegion: CLBeaconRegion!
     
@@ -69,32 +71,13 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         {   (snap) in
             if let dict = snap.value as? [String: Int]
             {
-                self.preTime = dict["Countdown"]!
+                self.preTime = dict["preTime"]!
                 print(self.preTime)
                 
-                self.gameTime = dict["Round Timer"]!
+                self.gameTime = dict["gameTime"]!
                 print(self.gameTime)
             }
         })
-        
-        let playersBranch = currentLobby.child("players")
-        for player in players
-        {
-            self.distances[player.name] = 0
-            playersBranch.child(player.uuid).observe(.childChanged, with:
-            {   (snap) in
-                if snap.key == "dist" {
-                    if let value = snap.value as? Double {
-                        self.distances[player.name] = value
-                    }
-                }
-                else if snap.key == "role" {
-                    if let value = snap.value as? Int {
-                        player.role = value
-                    }
-                }
-            })
-        }
         
         self.navigationItem.setHidesBackButton(true, animated: false)
         
@@ -112,7 +95,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         beaconManager.delegate = self
         beaconManager.startRangingBeacons(in: beaconRegion)
         
-        tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeStep), userInfo: nil, repeats: true)
+        tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(preTimeStep), userInfo: nil, repeats: true)
         
         /*timp = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesCalc), userInfo: nil, repeats: true)
         
@@ -125,21 +108,59 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
                 self.gameOver()
             }
         })
+        
+        for player in players
+        {
+            self.distances[player.name] = 0
+            currentLobby.child("players").child(player.uuid).observe(.childChanged, with:
+            {   (snap) in
+                if snap.key == "dist" {
+                    if let value = snap.value as? Double {
+                        self.distances[player.name] = value
+                    }
+                }
+                else if snap.key == "role" {
+                    if let value = snap.value as? Int {
+                        player.role = value
+                    }
+                }
+            })
+        }
     }
     
     deinit
     {
+        beaconManager.stopRangingBeaconsInAllRegions()
         currentLobby.removeAllObservers()
         tim.invalidate()
-        //timp.invalidate()
-        //jim.invalidate()
-        beaconManager.stopRangingBeaconsInAllRegions()
+        
         print("deinitializing")
     }
     
-    func timeStep()
+    var countdownAlert: UIAlertController!
+    func preTimeStep()
     {
-        if gameTime > 0{
+        if countdownAlert != nil {
+            countdownAlert.dismiss(animated: false, completion: nil)
+            countdownAlert = nil
+        }
+        
+        if preTime > 0 {
+            preTime -= 1
+            
+            countdownAlert = UIAlertController(title: "Game begins in:", message: "\(preTime) seconds", preferredStyle: .alert)
+            present(countdownAlert, animated: false, completion: nil)
+        }
+        else {
+            ezAlert(title: "Let the games begin!", message: nil, buttonTitle: "OK")
+            tim.invalidate()
+            tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(gameTimeStep), userInfo: nil, repeats: true)
+        }
+    }
+    
+    func gameTimeStep()
+    {
+        if gameTime > 0 {
             gameTime -= 1
             
             let minutes = "\(gameTime / 60)"
@@ -147,9 +168,9 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
             
             navigationItem.title = "\(minutes):\(seconds)"
         }
-        else{
-            print("job's done")
+        else {
             tim.invalidate()
+            gameOver()
         }
     }
     
