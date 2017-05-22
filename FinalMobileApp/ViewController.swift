@@ -29,9 +29,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tabBar.delegate = self
         
         self.navigationItem.title = "Join a Lobby"
-        //self.navigationController?.navigationBar.barTintColor = UIColor.yellow
         self.navigationController?.navigationBar.tintColor = UIColor.darkGray
-        
         
         if CLLocationManager.authorizationStatus() != .authorizedAlways {
             CLLocationManager().requestAlwaysAuthorization()
@@ -67,7 +65,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     ref.child(lobby).child("players").child(pair.key).removeValue()
                     ref.child(lobby).child("players").observeSingleEvent(of: .value, with:
                     {   (snap) in
-                        if "\(snap.value!)" == "<null>"
+                        if "\(snap.value!)" == "<null>" //ghetto nil check
                         {
                             ref.child(lobby).removeValue()
                         }

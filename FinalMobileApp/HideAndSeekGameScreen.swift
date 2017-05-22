@@ -117,6 +117,14 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         /*timp = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesCalc), userInfo: nil, repeats: true)
         
         jim = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesAcc), userInfo: nil, repeats: true)*/
+        
+        //Listening for game-ending
+        currentLobby.observe(.childChanged, with:
+        {   (snap) in
+            if snap.key == "gameState" {
+                self.gameOver()
+            }
+        })
     }
     
     deinit
@@ -251,5 +259,28 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     func toFeet(fromMeters meters: Double) -> Double
     {
         return meters * 3.28084
+    }
+    
+    var hidersRemain: Bool
+    {
+        for player in players
+        {
+            if player.role == 0
+            {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func gameOver()
+    {
+        let result = hidersRemain ? "Hiders Win!" : "Seeker Wins!"
+        let alert = UIAlertController(title: "Game Over!", message: result, preferredStyle: .alert)
+        alert.addAction(title: "Dismiss", style: .cancel)
+        {   _ in
+            let _ = self.navigationController?.popViewController(animated: true)
+        }
+        present(alert, animated: true, completion: nil)
     }
 }
