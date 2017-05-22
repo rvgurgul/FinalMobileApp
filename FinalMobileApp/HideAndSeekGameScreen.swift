@@ -44,6 +44,8 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     var players: [Player]!
     var lobby: Lobby?
     
+    var hider = true
+    
     var currentLobby: FIRDatabaseReference
     {
         return ref.child(lobby!.name)
@@ -148,7 +150,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         if preTime > 0 {
             preTime -= 1
             
-            countdownAlert = UIAlertController(title: "Game begins in:", message: "\(preTime) seconds", preferredStyle: .alert)
+            countdownAlert = UIAlertController(title: "Game begins in: \(preTime)", message: nil, preferredStyle: .alert)
             present(countdownAlert, animated: false, completion: nil)
         }
         else {
