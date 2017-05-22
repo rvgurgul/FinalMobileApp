@@ -46,25 +46,33 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     
     var hider = true
     
-    var currentLobby: FIRDatabaseReference
-    {
+    var currentLobby: FIRDatabaseReference {
         return ref.child(lobby!.name)
     }
     
-    var distances = [String: CLLocationAccuracy]()
-    {
-        didSet
-        {
+    var distances = [String: CLLocationAccuracy]() {
+        didSet {
             self.tableView.reloadData()
         }
     }
     
-    override func viewDidLoad()
-    {
+    var hidersRemain: Bool {
+        if hider {
+            return true
+        }
+        
+        for player in players {
+            if player.role == 0 {
+                return true
+            }
+        }
+        return false
+    }
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard lobby != nil && players != nil else
-        {
+        guard lobby != nil && players != nil else {
             self.dismiss(animated: true, completion: nil)
             return
         }
@@ -74,10 +82,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
             if let dict = snap.value as? [String: Int]
             {
                 self.preTime = dict["preTime"]!
-                print(self.preTime)
-                
                 self.gameTime = dict["gameTime"]!
-                print(self.gameTime)
             }
         })
         
@@ -111,8 +116,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
             }
         })
         
-        for player in players
-        {
+        for player in players {
             self.distances[player.name] = 0
             currentLobby.child("players").child(player.uuid).observe(.childChanged, with:
             {   (snap) in
@@ -130,8 +134,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         }
     }
     
-    deinit
-    {
+    deinit {
         beaconManager.stopRangingBeaconsInAllRegions()
         currentLobby.removeAllObservers()
         tim.invalidate()
@@ -140,33 +143,39 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     }
     
     var countdownAlert: UIAlertController!
-    func preTimeStep()
-    {
+    func preTimeStep() {
         if countdownAlert != nil {
             countdownAlert.dismiss(animated: false, completion: nil)
             countdownAlert = nil
         }
         
         if preTime > 0 {
-            preTime -= 1
+            var dots = ""
+            for _ in 0..<(3 - preTime % 4)
+            {
+                dots += "."
+            }
             
-            countdownAlert = UIAlertController(title: "Game begins in: \(preTime)", message: nil, preferredStyle: .alert)
+            let msg = hider ? "You're a hider! Find a spot." : "You're a seeker! Please wait\(dots)"
+            countdownAlert = UIAlertController(title: "Game begins in: \(preTime)", message: msg, preferredStyle: .alert)
             present(countdownAlert, animated: false, completion: nil)
+            
+            preTime -= 1
         }
         else {
-            ezAlert(title: "Let the games begin!", message: nil, buttonTitle: "OK")
+            let msg = hider ? "Good luck!" : "Find those hiders!"
+            ezAlert(title: "Let the game begin!", message: msg, buttonTitle: "OK")
             tim.invalidate()
             tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(gameTimeStep), userInfo: nil, repeats: true)
         }
     }
     
-    func gameTimeStep()
-    {
+    func gameTimeStep() {
         if gameTime > 0 {
-            gameTime -= 1
-            
             let minutes = "\(gameTime / 60)"
             let seconds = "\(gameTime % 60)".characters.count == 1 ? "0\(gameTime % 60)" : "\(gameTime % 60)"
+            
+            gameTime -= 1
             
             navigationItem.title = "\(minutes):\(seconds)"
         }
@@ -177,10 +186,8 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     }
     
     //finds beacons, array of beacons with that uuid is beacons, this func updates every 1 second
-    func beaconManager(_ manager: Any, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion)
-    {
-        if let beac = beacons.first
-        {
+    func beaconManager(_ manager: Any, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
+        if let beac = beacons.first {
             let feet = toFeet(fromMeters: beac.accuracy)
             distancesToAverage.append(feet)
         }
@@ -225,13 +232,11 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         }
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-    {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return players.count
     }
     
@@ -279,25 +284,11 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         return feet
     }*/
     
-    func toFeet(fromMeters meters: Double) -> Double
-    {
+    func toFeet(fromMeters meters: Double) -> Double {
         return meters * 3.28084
     }
     
-    var hidersRemain: Bool
-    {
-        for player in players
-        {
-            if player.role == 0
-            {
-                return true
-            }
-        }
-        return false
-    }
-    
-    func gameOver()
-    {
+    func gameOver() {
         let result = hidersRemain ? "Hiders Win!" : "Seeker Wins!"
         let alert = UIAlertController(title: "Game Over!", message: result, preferredStyle: .alert)
         alert.addAction(title: "Dismiss", style: .cancel)
