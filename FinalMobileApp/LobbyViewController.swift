@@ -63,16 +63,15 @@ class LobbyViewController: UITableViewController
         //Listening for player joining
         currentLobby.child("players").observe(.childAdded, with:
         {   (snap) in
-            if let value = snap.value as? [String:Any]
-            {
+            if let value = snap.value as? [String:Any] {
                 let uuid = snap.key
-                if myPlayerID != uuid //don't include the host themself
-                {
-                    let name = value["name"] as! String
-                    let role = value["role"] as! Int
-                    
-                    self.players.append(Player(uuid, name, role))
-                    self.tableView.reloadData()
+                if myPlayerID != uuid {
+                    if let name = value["name"] as? String {
+                        if let role = value["role"] as? Int {
+                            self.players.append(Player(uuid, name, role))
+                            self.tableView.reloadData()
+                        }
+                    }
                 }
             }
         })
