@@ -229,9 +229,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         }
                         else
                         {
-                            let phrase = ["China", "Wrong", "Liberal Conspiracies", "Vladimir Putin", "Fox News", "Make America Great Again",  "Mike Pence", "Fake News", "Chyyyna", "This is the worst trade deal in the history of trade deals, maybe ever.", "Failing New York Times", "We're going to build a wall.", "Steven Bannon", "Sean Spicer", "Russia", "North Korea", "Anime is now illegal.", "Alternative Facts", "CNN is FAKE NEWS"].random()
+                            //let phrase = ["China", "Wrong", "Liberal Conspiracies", "Vladimir Putin", "Fox News", "Make America Great Again",  "Mike Pence", "Fake News", "Chyyyna", "This is the worst trade deal in the history of trade deals, maybe ever.", "Failing New York Times", "We're going to build a wall.", "Steven Bannon", "Sean Spicer", "Russia", "North Korea", "Anime is now illegal.", "Alternative Facts", "CNN is FAKE NEWS"].random()
                             
-                            let wrongAlert = UIAlertController(title: "WRONG", message: phrase, preferredStyle: .alert)
+                            let wrongAlert = UIAlertController(title: "Wrong Password", message: nil, preferredStyle: .alert)
                             wrongAlert.addAction(cancelAction(withTitle: "OK"))
                             self.present(wrongAlert, animated: true, completion: nil)
                         }
@@ -239,12 +239,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
                 present(alert, animated: true, completion: nil)
             }
-            else
-            {
+            else {
                 goToView(withID: "newLobby", handler:
                 {   (vc) in
-                    if let nextVC = vc as? LobbyViewController
-                    {
+                    if let nextVC = vc as? LobbyViewController {
                         nextVC.lobby = self.lobbies[indexPath.row]
                     }
                 })
@@ -269,21 +267,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         let alert = UIAlertController(title: "Lobby Name Taken", message: "A lobby already exists with the name \"\(name)\"", preferredStyle: .alert)
                         alert.addAction(cancelAction(withTitle: "Dismiss"))
                         self.present(alert, animated: true, completion: nil)
-                    }
-                    else
-                    {
-                        ref.child(name).updateChildValues(["password": pass])
-                        
-                        self.goToView(withID: "newLobby", handler:
-                        {   (vc) in
-                            if let nextVC = vc as? LobbyViewController
-                            {
-                                nextVC.lobby = Lobby(name: name, dict: ["password": pass, "host": deviceName])
-                                nextVC.hosting = true
-                            }
-                        })
+                        return
                     }
                 }
+                ref.child(name).updateChildValues(["password": pass])
+                
+                self.goToView(withID: "newLobby", handler:
+                {   (vc) in
+                    if let nextVC = vc as? LobbyViewController
+                    {
+                        nextVC.lobby = Lobby(name: name, dict: ["password": pass, "host": deviceName])
+                        nextVC.hosting = true
+                    }
+                })
             })
         }
     }
