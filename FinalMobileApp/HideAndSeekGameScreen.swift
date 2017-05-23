@@ -234,6 +234,12 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let dist = [CLLocationAccuracy](distances.values)[indexPath.row]
+        if dist < 5
+        {
+            
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

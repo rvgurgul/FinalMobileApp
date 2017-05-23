@@ -46,10 +46,6 @@
  
  - use the settings chosen in the lobby for the timers
  
- + initial countdown
-    tells hiders to run and find a spot to hide
-    tells seeker to sit still until the time starts
- 
  + detect when a seeker is in close enough proximity to a player
  
  - carry over the leaving functionality to remove people who leave during the game
