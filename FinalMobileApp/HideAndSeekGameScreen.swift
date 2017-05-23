@@ -44,7 +44,10 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     var players: [Player]!
     var lobby: Lobby?
     
-    var hider = false
+    
+    
+    
+    var hider = true
     var seeker: Bool
     {
         return !hider
