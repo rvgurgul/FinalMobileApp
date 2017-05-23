@@ -45,6 +45,10 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     var lobby: Lobby?
     
     var hider = true
+    var seeker: Bool
+    {
+        return !hider
+    }
     
     var currentLobby: FIRDatabaseReference {
         return ref.child(lobby!.name)
@@ -138,8 +142,6 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         beaconManager.stopRangingBeaconsInAllRegions()
         currentLobby.removeAllObservers()
         tim.invalidate()
-        
-        print("deinitializing")
     }
     
     var countdownAlert: UIAlertController!
@@ -236,9 +238,11 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         tableView.deselectRow(at: indexPath, animated: true)
         
         let dist = [CLLocationAccuracy](distances.values)[indexPath.row]
-        if dist < 5
+        let name = [String](distances.keys)[indexPath.row]
+        if seeker && dist < 5 //Find the peeps
         {
-            
+            print("Found \(name)")
+            currentLobby.child("players").child(name).updateChildValues(["role": 2])
         }
     }
     
