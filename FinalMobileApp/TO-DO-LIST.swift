@@ -44,27 +44,13 @@
  
  HideAndSeekGameScreen
  
- - use the settings chosen in the lobby for the timers
- 
- + detect when a seeker is in close enough proximity to a player
- 
  - carry over the leaving functionality to remove people who leave during the game
  
- + end game (go back to lobby)
  
  
  
  
- 
- 
- 
- 
- /              /              /                                              /
- (___  ___  ___ (              (  ___  _ _  _ _  ___       ___  _ _  ___  ___ (___
- |   )|___)|    |___)\   )     | |___)| | )| | )|___)     |___ | | )|   )|___ |   )
- |__/ |__  |__  | \   \_/      | |__  |  / |  / |__        __/ |  / |__/| __/ |  /
-                       /
- 
+
  
  
  */

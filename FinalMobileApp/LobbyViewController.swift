@@ -30,6 +30,11 @@ class LobbyViewController: UITableViewController
     
     var settings = ["preTime": 30, "gameTime": 300]
     
+    override func didReceiveMemoryWarning()
+    {
+        currentLobby.child("players").child(UUID().uuidString).updateChildValues(["name": "DUMMY PLAYER", "role": 0, "dist": 0])
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -68,8 +73,17 @@ class LobbyViewController: UITableViewController
                 if myPlayerID != uuid {
                     if let name = value["name"] as? String {
                         if let role = value["role"] as? Int {
-                            self.players.append(Player(uuid, name, role))
+                            let player = Player(uuid, name, role)
+                            self.players.append(player)
                             self.tableView.reloadData()
+                            
+                            self.currentLobby.child("players").child(uuid).observe(.childChanged, with:
+                            {   (roleSnap) in
+                                if roleSnap.key == "role" {
+                                    player.role = roleSnap.value as! Int
+                                    self.tableView.reloadData()
+                                }
+                            })
                         }
                     }
                 }
@@ -94,14 +108,12 @@ class LobbyViewController: UITableViewController
             }
             else
             {
-                for i in 0..<self.players.count
-                {
-                    if i >= self.players.count
-                    {
-                        for _ in 0...15 {print("oh no, very bad")}
-                    }
+                for i in 0..<self.players.count {
+                    if i >= self.players.count {for _ in 0...15 {print("oh no, very bad")}}
                     else if self.players[i].uuid == snap.key
                     {
+                        self.currentLobby.child("players").child(self.players[i].uuid).removeAllObservers()
+                        
                         self.players.remove(at: i)
                         self.tableView.reloadData()
                     }
@@ -118,8 +130,7 @@ class LobbyViewController: UITableViewController
             if snap.key == "gameState" {
                 self.goToView(withID: "newGameVC", handler:
                 {   (vc) in
-                    if let nextVC = vc as? HideAndSeekGameScreen
-                    {
+                    if let nextVC = vc as? HideAndSeekGameScreen {
                         nextVC.lobby = self.lobby
                         nextVC.players = self.players
                     }
@@ -210,6 +221,15 @@ class LobbyViewController: UITableViewController
         present(alert, animated: true, completion: nil)
     }
     
+    func chooseSeeker(_: UIAlertAction)
+    {
+        let alert = UIAlertController(title: "Choose the seeker:", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(title: "You", style: .default)
+        {   _ in
+            self.currentLobby.child("players").child(myPlayerID).updateChildValues(["role": 1])
+        }
+    }
+    
     func passwordFlash(_: UIAlertAction)
     {
         let alert = UIAlertController(title: "Password: \n\(lobby!.pass!)", message: "This message will disappear after 3 seconds.", preferredStyle: .alert)
@@ -238,18 +258,15 @@ class LobbyViewController: UITableViewController
         }
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-    {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String?
-    {
+    override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         return "Kick"
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return players.count
     }
     
@@ -260,6 +277,11 @@ class LobbyViewController: UITableViewController
         
         cell.textLabel?.text = player.name //"Device Name"
         cell.detailTextLabel?.text = player.uuid //"UUID"
+        
+        if player.role != 0 {
+            cell.backgroundColor = UIColor(colorLiteralRed: 253/255, green: 128/255, blue: 100/255, alpha: 1)
+        }
+        
         return cell
     }
     

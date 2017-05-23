@@ -108,10 +108,6 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(preTimeStep), userInfo: nil, repeats: true)
         
-        /*timp = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesCalc), userInfo: nil, repeats: true)
-        
-        jim = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(averageTimesAcc), userInfo: nil, repeats: true)*/
-        
         //Listening for game-ending
         currentLobby.observe(.childChanged, with:
         {   (snap) in
@@ -192,45 +188,6 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         if let beac = beacons.first {
             let feet = toFeet(fromMeters: beac.accuracy)
             distancesToAverage.append(feet)
-        }
-        //let thisOneBoi = beacons.first!
-        //let number = beacons.first?.accuracy
-        //let number = calcDis(thisOneBoi: thisOneBoi)
-        
-        //let calcdis = calcDis(thisOneBoi: thisOneBoi)
-        
-//        if (firsttime)
-//        {
-//            firsttime = false
-//            averageTimesAcc()
-//        }
-        
-//        print("add to array")
-//        timesCalc.append(calcdis)
-//        timesAcc.append(givendis!)
-    }
-    
-    //calculate the distance
-    func calcDis(thisOneBoi: CLBeacon) -> Double
-    {
-        let rssi = Double(thisOneBoi.rssi)
-        let txPower = -66.0 //internet said this is the power for when the beaonc is on -4db which is the default
-        
-        if rssi == 0
-        {
-            return -1.0 // if we cannot determine accuracy, return -1.
-        }
-        
-        let ratio = rssi / txPower;
-        
-        if (ratio < 1.0)
-        {
-            return pow(ratio, 10)
-        }
-        else
-        {
-            let accuracy = (0.89976) * pow(ratio,7.7095) + 0.111;
-            return accuracy
         }
     }
     
