@@ -71,21 +71,11 @@ class LobbyViewController: UITableViewController
             if let value = snap.value as? [String:Any] {
                 let uuid = snap.key
                 if myPlayerID != uuid {
-                    if let name = value["name"] as? String {
-                        if let role = value["role"] as? Int {
-                            let player = Player(uuid, name, role)
-                            self.players.append(player)
-                            self.tableView.reloadData()
-                            
-                            self.currentLobby.child("players").child(uuid).observe(.childChanged, with:
-                            {   (roleSnap) in
-                                if roleSnap.key == "role" {
-                                    player.role = roleSnap.value as! Int
-                                    self.tableView.reloadData()
-                                }
-                            })
-                        }
-                    }
+                    let name = value["name"] as! String
+                    let role = value["role"] as! Int
+                    let player = Player(uuid, name, role)
+                    self.players.append(player)
+                    self.tableView.reloadData()
                 }
             }
         })
@@ -112,8 +102,6 @@ class LobbyViewController: UITableViewController
                     if i >= self.players.count {for _ in 0...15 {print("oh no, very bad")}}
                     else if self.players[i].uuid == snap.key
                     {
-                        self.currentLobby.child("players").child(self.players[i].uuid).removeAllObservers()
-                        
                         self.players.remove(at: i)
                         self.tableView.reloadData()
                     }
@@ -133,9 +121,9 @@ class LobbyViewController: UITableViewController
                     if let nextVC = vc as? HideAndSeekGameScreen {
                         nextVC.lobby = self.lobby
                         nextVC.players = self.players
+                        nextVC.hider = !self.hosting
                     }
                 })
-                self.currentLobby.removeAllObservers()
             }
         })
     }

@@ -232,30 +232,14 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         return cell
     }
     
-    /*func averageTimesCalc() -> Double
-    {
-        let avg = average(timesCalc)
-        timesCalc.removeAll()
-        
-        let feet = toFeet(meters: avg)
-        //currentLobby.child("players").child(branchID).updateChildValues(["dist": feet])
-        
-        return feet
-    }
-    
-    func averageTimesAcc() -> Double
-    {
-        let avg = average(timesAcc)
-        timesAcc.removeAll()
-        
-        let feet = toFeet(meters: avg)
-        //currentLobby.child("players").child(myPlayerID).updateChildValues(["dist": feet])
-        
-        return feet
-    }*/
+    let CONVERSION_FACTOR = 3.28084
     
     func toFeet(fromMeters meters: Double) -> Double {
-        return meters * 3.28084
+        return meters * CONVERSION_FACTOR
+    }
+    
+    func toMeters(fromFeet feet: Double) -> Double {
+        return feet / CONVERSION_FACTOR
     }
     
     func gameOver() {
