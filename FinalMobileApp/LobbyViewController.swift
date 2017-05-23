@@ -125,6 +125,7 @@ class LobbyViewController: UITableViewController
                         nextVC.players = self.players
                     }
                 })
+                self.currentLobby.removeAllObservers()
             }
         })
     }
