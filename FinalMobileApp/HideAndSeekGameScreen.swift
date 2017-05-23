@@ -44,7 +44,7 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
     var players: [Player]!
     var lobby: Lobby?
     
-    var hider = false
+    var hider = true
     var seeker: Bool
     {
         return !hider
@@ -239,10 +239,13 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         let dist = [CLLocationAccuracy](distances.values)[indexPath.row]
         let name = [String](distances.keys)[indexPath.row]
-        if seeker && dist < 5 //Find the peeps
-        {
-            print("Found \(name)")
-            currentLobby.child("players").child(name).updateChildValues(["role": 2])
+        if seeker && dist < 5 {
+            for player in players {
+                if player.name == name {
+                    player.role = 2
+                    currentLobby.child("players").child(player.uuid).updateChildValues(["role": 2])
+                }
+            }
         }
     }
     
