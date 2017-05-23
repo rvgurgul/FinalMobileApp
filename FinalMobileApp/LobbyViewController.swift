@@ -130,7 +130,13 @@ class LobbyViewController: UITableViewController
     
     func settingsButton()
     {
-        let alert = UIAlertController(title: "Settings Menu", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Settings Menu", message: nil, preferredStyle: .alert)
+        
+        
+        
+        
+        
+        
         
         /*let rdyTxt = ready ? "Unready" : "Ready Up"
         alert.addAction(title: rdyTxt, style: .destructive, handler:
