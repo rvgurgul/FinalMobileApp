@@ -73,6 +73,16 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         return false
     }
     
+    var remainingHiders: Int {
+        var sum = 0
+        for player in players {
+            if player.role == 0 {
+                sum += 1
+            }
+        }
+        return sum
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -108,11 +118,10 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         tim = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(preTimeStep), userInfo: nil, repeats: true)
         
-        //Listening for game-ending
-        currentLobby.observe(.childChanged, with:
+        currentLobby.child("players").child(myPlayerID).observe(.childChanged, with:
         {   (snap) in
-            if snap.key == "gameState" {
-                self.gameOver()
+            if snap.key == "role" {
+                self.ezAlert(title: "You've been found!", message: nil, buttonTitle: "OK")
             }
         })
         
@@ -196,11 +205,18 @@ class HideAndSeekGameScreen: UITableViewController, ESTBeaconManagerDelegate
         
         let dist = [CLLocationAccuracy](distances.values)[indexPath.row]
         let name = [String](distances.keys)[indexPath.row]
-        if seeker && dist < 5 {
+        if seeker && dist < 10 {
             for player in players {
                 if player.name == name {
                     player.role = 2
                     currentLobby.child("players").child(player.uuid).updateChildValues(["role": 2])
+                    
+                    if hidersRemain{
+                        ezAlert(title: "You found \(player.name)", message: "\(remainingHiders) hiders remain.", buttonTitle: "OK")
+                    }
+                    else {
+                        gameOver()
+                    }
                 }
             }
         }
