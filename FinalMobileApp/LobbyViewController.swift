@@ -185,7 +185,7 @@ class LobbyViewController: UITableViewController
     
     func gameTimeHandler(_: UIAlertAction)
     {
-        let constraints = 60...600
+        let constraints = 60...600000
         let alert = UIAlertController(title: "Change Game Time", message: nil, preferredStyle: .alert)
         alert.addTextField
         {   (field) in
